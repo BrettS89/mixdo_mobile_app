@@ -1,0 +1,360 @@
+import { AsyncStorage } from 'react-native';
+import axios from 'axios';
+import { URI } from '../config';
+
+async function getToken() {
+  let config = {
+    headers: {
+      authorization: await AsyncStorage.getItem('token')
+    }
+  };
+
+  if(!config.headers.authorization) {
+    throw 'error';
+  }
+
+  return config;
+}
+
+//Test connection to server
+export async function apiTest() {
+  try {
+    const config = await getToken();
+    await axios.get(`${URI}/connection`, config);
+  }
+  catch(e) {
+    throw(e);
+  }
+}
+
+//Signup
+export async function userSignup(body) {
+  try {
+    const { data } = await axios.post(`${URI}/auth/signup`, body);
+    return data;
+  }
+  catch(e) {
+    return 'Error'
+  }
+}
+
+//Save push token
+export async function apiSavePushToken(body) {
+  try {
+    const config = await getToken();
+    const { data } = await axios.post(`${URI}/users/pushtoken`, body, config);
+    return data;
+  }
+  catch(e) {
+    throw new Error('error!!!');
+  }
+}
+
+//Login
+export async function userLogin(body) {
+  try {
+    const { data } = await axios.post(`${URI}/auth/login`, body);
+    return data;
+  }
+  catch(e) {
+    return 'Got an error';
+  }
+}
+
+//Facebook login/signup
+export async function apiFacebookAuth(body) {
+  try {
+    const { data } = await axios.post(`${URI}/auth/facebook`, body);
+    return data;
+  }
+  catch(e) {
+    return 'error';
+  }
+}
+
+//Add todo
+export async function addTodoItem(body) {
+  try {
+    const config = await getToken();
+    const { data } = await axios.post(`${URI}/todos/add`, body, config);
+    return data;
+  }
+  catch(e) {
+    return 'Got an error'
+  }
+}
+
+//Delete todo
+export async function apiDeleteTodo(body) {
+  try {
+    const config = await getToken();
+    const { data } = await axios.post(`${URI}/todos/delete`, body, config);
+    return data;
+  }
+  catch(e) {
+    return 'error';
+  }
+}
+
+//Get my todos
+export async function getOnePersonTodos() {
+  try {
+    const config = await getToken();
+    const { data } = await axios.get(`${URI}/todos/user`, config);
+    return data;
+  }
+  catch(e) {
+    return 'error'
+  }
+}
+
+//Get Todos
+export async function todos() {
+  try {
+    const config = await getToken();
+    const { data } = await axios.get(`${URI}/todos/get`, config);
+    return data;
+  }
+  catch(e) {
+    return 'error';
+  }
+}
+
+//Inifity scroll
+export async function apiGetInifityTodos(body) {
+  try {
+    const config = await getToken();
+    const { data } = await axios.post(`${URI}/todos/infinity`, body, config);
+    return data;
+  }
+  catch(e) {
+    return 'error';
+  }
+}
+
+//Find Friends
+export async function apiFindFriends() {
+  try {
+    const config = await getToken();
+    const { data } = await axios.get(`${URI}/users/find`, config);
+    return data;
+  }
+  catch(e) {
+    return 'error';
+  }
+}
+
+export async function apiFindFriendsInfinite(body) {
+  try {
+    const config = await getToken();
+    const { data } = await axios.get(`${URI}/users/find/${body.date}`, config);
+    return data;
+  }
+  catch(e) {
+    return 'error';
+  }
+}
+
+//Get Followers
+export async function apiGetFollowers(type) {
+  try {
+    const config = await getToken();
+    const { data } = await axios.get(`${URI}/users/getFollowers/${type}`, config);
+    return data;
+  }
+  catch(e) {
+    return 'error';
+  }
+}
+
+//Get Following
+export async function apiGetFollowing() {
+  try {
+    const config = await getToken();
+    const { data } = await axios.get(`${URI}/users/getFollowing`, config);
+    return data;
+  }
+  catch(e) {
+    return 'error'
+  }
+}
+
+//Follow a User 
+export async function apiFollowUser(body) {
+  try {
+    const config = await getToken();
+    const { data } = await axios.post(`${URI}/users/followUser`, body, config);
+    return data;
+  }
+  catch(e) {
+    return 'error';
+  }
+}
+
+//Unfollow a User 
+export async function apiUnFollowUser(body) {
+  try {
+    const config = await getToken();
+    const { data } = await axios.post(`${URI}/users/unfollowUser`, body, config);
+    return data;
+  }
+  catch(e) {
+    return 'error';
+  }
+}
+
+//Get Notifications
+export async function apiGetNotifications() {
+  try {
+    const config = await getToken();
+    const { data } = await axios.get(`${URI}/notifications/get`, config);
+    return data;
+  }
+  catch(e) {
+    return 'error';
+  }
+}
+
+//Discover Todos
+export async function apiDiscoverTodos() {
+  try {
+    const config = await getToken();
+    const { data } = await axios.get(`${URI}/todos/discover`, config);
+    return data;
+  }
+  catch(e) {
+    return 'error';
+  }
+}
+
+//Get Infinity Discover
+export async function apiGetInfinityDiscover(body) {
+  try {
+    const config = await getToken();
+    const { data } = await axios.post(`${URI}/todos/infinitidiscover`, body, config);
+    return data;
+  }
+  catch(e) {
+    return 'error';
+  }
+}
+
+//Get Profile
+export async function apiGetMyProfile() {
+  try {
+    const config = await getToken();
+    const { data } = await axios.get(`${URI}/users/myProfile`, config);
+    return data;
+  }
+  catch(e) {
+    return 'error';
+  }
+}
+
+//Get a Profile 
+export async function apiGetUserProfile(id) {
+  try {
+    const config = await getToken();
+    const { data } = await axios.get(`${URI}/users/getProfile/${id}`, config);
+    return data;
+  }
+  catch(e) {
+    return 'error';
+  }
+}
+
+//Search for users
+export async function apiSearchUser(name) {
+  try {
+    const config = await getToken();
+    const { data } = await axios.get(`${URI}/users/search/${name}`, config);
+    return data;
+  }
+  catch(e) {
+    return 'error';
+  }
+}
+
+//Search Todos
+export async function apiSearchTodos(search) {
+  try {
+    const config = await getToken();
+    const { data } = await axios.get(`${URI}/todos/search/${search}`, config);
+    return data;
+  }
+  catch(e) {
+    return 'error';
+  }
+}
+
+//Like a todo
+export async function apiLikeTodo(body) {
+  try {
+    const config = await getToken();
+    const { data } = await axios.post(`${URI}/todos/like`, body, config);
+    return data;
+  }
+  catch(e) {
+    return 'error';
+  }
+}
+
+//Add a user's todo
+export async function apiAddUserTodo(body) {
+  try {
+    const config = await getToken();
+    const { data } = await axios.post(`${URI}/todos/addusertodo`, body, config);
+    return data;
+  }
+  catch(e) {
+    return 'error';
+  }
+}
+
+//Finish a todo
+export async function apiFinishTodo(todo) {
+  try {
+    const config = await getToken();
+    const { data } = await axios.post(`${URI}/todos/finish`, todo, config);
+    return data;
+  }
+  catch(e) {
+    return 'error';
+  }
+}
+
+//Get user history
+export async function apiGetUserHistory() {
+  try {
+    const config = await getToken();
+    const { data } = await axios.get(`${URI}/todos/userhistory`, config);
+    return data;
+  }
+  catch(e) {
+    return 'error';
+  }
+}
+
+//Upload image
+export async function apiGetAwsUrl(type) {
+  try {
+    const config = await getToken();
+    const { data } = await axios.get(`${URI}/upload/awsimage/${type}`, config);
+    return data;
+  }
+  catch(e) {
+    return 'error';
+  }
+}
+
+//Upload profile photo
+export async function apiUploadProfilePhoto(body) {
+  try {
+    const config = await getToken();
+    const { data } = await axios.post(`${URI}/users/profilephoto`, body, config);
+    return data;
+  }
+  catch(e) {
+    return 'error';
+  }
+}

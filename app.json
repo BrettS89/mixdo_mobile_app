@@ -1,0 +1,32 @@
+{
+  "expo": {
+    "name": "mixdo",
+    "description": "This project is really great.",
+    "slug": "mixdo",
+    "privacy": "public",
+    "sdkVersion": "29.0.0",
+    "platforms": ["ios", "android"],
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "facebookScheme": "fb736979746693999",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.mixdo.mixdo"
+    },
+    "android": {
+      "package": "com.mixdo.mixdo"
+    }
+  }
+}
