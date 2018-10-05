@@ -1,11 +1,13 @@
 import { AsyncStorage } from 'react-native';
+import Expo from 'expo';
 import axios from 'axios';
 import { URI } from '../config';
 
 async function getToken() {
   let config = {
     headers: {
-      authorization: await AsyncStorage.getItem('token')
+      authorization: await AsyncStorage.getItem('token'),
+      deviceName: Expo.Constants.deviceName,
     }
   };
 
@@ -43,7 +45,7 @@ export async function apiSavePushToken(body) {
   try {
     const config = await getToken();
     const { data } = await axios.post(`${URI}/users/pushtoken`, body, config);
-    return data;
+    return data.res;
   }
   catch(e) {
     throw new Error('error!!!');
@@ -77,7 +79,8 @@ export async function addTodoItem(body) {
   try {
     const config = await getToken();
     const { data } = await axios.post(`${URI}/todos/add`, body, config);
-    return data;
+    await AsyncStorage.setItem('token', data.token);
+    return data.res;
   }
   catch(e) {
     return 'Got an error'
@@ -89,7 +92,8 @@ export async function apiDeleteTodo(body) {
   try {
     const config = await getToken();
     const { data } = await axios.post(`${URI}/todos/delete`, body, config);
-    return data;
+    await AsyncStorage.setItem('token', data.token);
+    return data.res;
   }
   catch(e) {
     return 'error';
@@ -101,7 +105,8 @@ export async function getOnePersonTodos() {
   try {
     const config = await getToken();
     const { data } = await axios.get(`${URI}/todos/user`, config);
-    return data;
+    await AsyncStorage.setItem('token', data.token);
+    return data.res;
   }
   catch(e) {
     return 'error'
@@ -113,7 +118,8 @@ export async function todos() {
   try {
     const config = await getToken();
     const { data } = await axios.get(`${URI}/todos/get`, config);
-    return data;
+    await AsyncStorage.setItem('token', data.token);
+    return data.res;
   }
   catch(e) {
     return 'error';
@@ -125,7 +131,8 @@ export async function apiGetInifityTodos(body) {
   try {
     const config = await getToken();
     const { data } = await axios.post(`${URI}/todos/infinity`, body, config);
-    return data;
+    await AsyncStorage.setItem('token', data.token);
+    return data.res;
   }
   catch(e) {
     return 'error';
@@ -137,7 +144,8 @@ export async function apiFindFriends() {
   try {
     const config = await getToken();
     const { data } = await axios.get(`${URI}/users/find`, config);
-    return data;
+    await AsyncStorage.setItem('token', data.token);
+    return data.res;
   }
   catch(e) {
     return 'error';
@@ -184,7 +192,8 @@ export async function apiFollowUser(body) {
   try {
     const config = await getToken();
     const { data } = await axios.post(`${URI}/users/followUser`, body, config);
-    return data;
+    await AsyncStorage.setItem('token', data.token);
+    return data.res;
   }
   catch(e) {
     return 'error';
@@ -196,7 +205,8 @@ export async function apiUnFollowUser(body) {
   try {
     const config = await getToken();
     const { data } = await axios.post(`${URI}/users/unfollowUser`, body, config);
-    return data;
+    await AsyncStorage.setItem('token', data.token);
+    return data.res;
   }
   catch(e) {
     return 'error';
@@ -208,7 +218,8 @@ export async function apiGetNotifications() {
   try {
     const config = await getToken();
     const { data } = await axios.get(`${URI}/notifications/get`, config);
-    return data;
+    await AsyncStorage.setItem('token', data.token);
+    return data.res;
   }
   catch(e) {
     return 'error';
@@ -220,7 +231,8 @@ export async function apiDiscoverTodos() {
   try {
     const config = await getToken();
     const { data } = await axios.get(`${URI}/todos/discover`, config);
-    return data;
+    await AsyncStorage.setItem('token', data.token);
+    return data.res;
   }
   catch(e) {
     return 'error';
@@ -232,7 +244,8 @@ export async function apiGetInfinityDiscover(body) {
   try {
     const config = await getToken();
     const { data } = await axios.post(`${URI}/todos/infinitidiscover`, body, config);
-    return data;
+    await AsyncStorage.setItem('token', data.token);
+    return data.res;
   }
   catch(e) {
     return 'error';
@@ -244,7 +257,8 @@ export async function apiGetMyProfile() {
   try {
     const config = await getToken();
     const { data } = await axios.get(`${URI}/users/myProfile`, config);
-    return data;
+    await AsyncStorage.setItem('token', data.token);
+    return data.res;
   }
   catch(e) {
     return 'error';
@@ -256,6 +270,7 @@ export async function apiGetUserProfile(id) {
   try {
     const config = await getToken();
     const { data } = await axios.get(`${URI}/users/getProfile/${id}`, config);
+    await AsyncStorage.setItem('token', data.token);
     return data;
   }
   catch(e) {
@@ -268,7 +283,8 @@ export async function apiSearchUser(name) {
   try {
     const config = await getToken();
     const { data } = await axios.get(`${URI}/users/search/${name}`, config);
-    return data;
+    await AsyncStorage.setItem('token', data.token);
+    return data.res;
   }
   catch(e) {
     return 'error';
@@ -280,7 +296,8 @@ export async function apiSearchTodos(search) {
   try {
     const config = await getToken();
     const { data } = await axios.get(`${URI}/todos/search/${search}`, config);
-    return data;
+    await AsyncStorage.setItem('token', data.token);
+    return data.res;
   }
   catch(e) {
     return 'error';
@@ -292,7 +309,8 @@ export async function apiLikeTodo(body) {
   try {
     const config = await getToken();
     const { data } = await axios.post(`${URI}/todos/like`, body, config);
-    return data;
+    await AsyncStorage.setItem('token', data.token);
+    return data.res;
   }
   catch(e) {
     return 'error';
@@ -304,7 +322,8 @@ export async function apiAddUserTodo(body) {
   try {
     const config = await getToken();
     const { data } = await axios.post(`${URI}/todos/addusertodo`, body, config);
-    return data;
+    await AsyncStorage.setItem('token', data.token);
+    return data.res;
   }
   catch(e) {
     return 'error';
@@ -316,7 +335,8 @@ export async function apiFinishTodo(todo) {
   try {
     const config = await getToken();
     const { data } = await axios.post(`${URI}/todos/finish`, todo, config);
-    return data;
+    await AsyncStorage.setItem('token', data.token);
+    return data.res;
   }
   catch(e) {
     return 'error';
@@ -328,7 +348,8 @@ export async function apiGetUserHistory() {
   try {
     const config = await getToken();
     const { data } = await axios.get(`${URI}/todos/userhistory`, config);
-    return data;
+    await AsyncStorage.setItem('token', data.token);
+    return data.res;
   }
   catch(e) {
     return 'error';
@@ -340,7 +361,8 @@ export async function apiGetAwsUrl(type) {
   try {
     const config = await getToken();
     const { data } = await axios.get(`${URI}/upload/awsimage/${type}`, config);
-    return data;
+    await AsyncStorage.setItem('token', data.token);
+    return data.res;
   }
   catch(e) {
     return 'error';

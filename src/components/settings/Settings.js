@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { View, Text, Image, TouchableOpacity, AsyncStorage } from 'react-native';
-import { ImagePicker, Permissions } from 'expo';
+import { ImagePicker, Permissions, ImageManipulator  } from 'expo';
 import { Buffer } from 'buffer';
 import { styles } from './styles';
 import Colors from '../../shared/colors';
@@ -11,13 +11,14 @@ class Settings extends React.Component {
   state = {
     firstName: '',
     lastName: '',
+    fullName: '',
     photo: false
   }
 
   async componentWillMount() {
     await this.props.getMyProfile();
-    const { firstName, lastName, photo } = this.props.state.profile.payload
-    this.setState({ firstName, lastName, photo });
+    const { firstName, lastName, fullName, photo } = this.props.state.profile.payload
+    this.setState({ firstName, lastName, photo, fullName });
   }
 
   renderProfileImage = () => {
@@ -34,19 +35,23 @@ class Settings extends React.Component {
     }
 
     const result = await ImagePicker.launchImageLibraryAsync({
-      base64: true,
       allowsEditing: true,
       aspect: [1, 1],
-      exif: false,
     });
 
+    const manipResult = await ImageManipulator.manipulate(
+      result.uri,
+      [{ resize: { width: 1080, height: 1080 }}],
+      { base64: true, compress: 0.2 }
+    );
+
     if (!result.cancelled) {
-      const buf = new Buffer(result.base64, 'base64');
+      const buf = new Buffer(manipResult.base64, 'base64');
       const splitURI = result.uri.split('.');
       const lastItem = splitURI.length - 1;
       const type = splitURI[lastItem];
       await this.props.getAwsUrl(type);
-      await axios.put(this.props.state.awsUrl.url, buf, {
+      axios.put(this.props.state.awsUrl.url, buf, {
         headers: {
           'Content-Type': `image/${type}`,
           'Content-Encoding': 'base64',
@@ -54,7 +59,7 @@ class Settings extends React.Component {
       });
 
       const user = await apiUploadProfilePhoto({ photo: `https://s3.amazonaws.com/mixdodev/${this.props.state.awsUrl.key}` });
-      this.setState({ firstName: user.firstName, lastName: user.lastName, photo: user.photo });
+      this.setState({ firstName: user.firstName, lastName: user.lastName, fullName: user.fullName, photo: user.photo });
     }
   }
 
@@ -91,11 +96,11 @@ class Settings extends React.Component {
           <View style={styles.contentContainer}>
             <View style={styles.contentTop}>
               <View style={styles.nameContainer}>
-                <Text style={styles.nameText}>{`${this.state.firstName} ${this.state.lastName}`}</Text>
+                <Text style={styles.nameText}>{`${this.state.fullName}`}</Text>
               </View>
               <View style={styles.contactRow}>
                 <Text style={{ fontWeight: '600' }}>Contact us</Text>
-                <Text>support@projectq.com</Text>
+                <Text>support@mixdo.com</Text>
               </View>
               <TouchableOpacity onPress={() => this.onLogout()}>
                 <Text style={{ fontWeight: '600', color: Colors.main }}>Log out</Text>

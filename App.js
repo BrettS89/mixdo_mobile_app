@@ -12,12 +12,12 @@ const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
 
 class App extends React.Component {
   componentDidMount() {
-    Notifications.addListener(notification => {
-      Alert.alert(
-        'Message',
-        'hi'
-      );
-    })
+    Notifications.addListener(this.listen);
+    console.log(Expo.Constants.deviceName);
+  }
+
+  listen = ({ origin, data }) => {
+    console.log(origin, data);
   }
 
   render() {

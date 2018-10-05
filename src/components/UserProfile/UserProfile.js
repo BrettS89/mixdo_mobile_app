@@ -28,7 +28,7 @@ class UserProfile extends React.Component {
   renderName = () => {
     const { payload } = this.props.state.profile;
     if(payload){
-      return `${payload.user.firstName} ${payload.user.lastName}`
+      return `${payload.user.fullName}`
     }
     return 'No Name';
   };

@@ -11,9 +11,9 @@
     "icon": "./assets/icon.png",
     "facebookScheme": "fb736979746693999",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/opening.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#7BABED"
     },
     "updates": {
       "fallbackToCacheTimeout": 0

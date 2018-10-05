@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { Buffer } from 'buffer';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
-import { ImagePicker, Permissions } from 'expo';
+import { ImagePicker, Permissions, ImageManipulator } from 'expo';
 import { styles } from './styles';
 import { apiUploadProfilePhoto } from '../../lib/api_calls';
 import pushNotifications from '../../services/pushNotifications';
@@ -37,14 +37,18 @@ class Welcome extends React.Component {
     }
 
     const result = await ImagePicker.launchImageLibraryAsync({
-      base64: true,
       allowsEditing: true,
       aspect: [1, 1],
-      exif: false,
     });
 
+    const manipResult = await ImageManipulator.manipulate(
+      result.uri,
+      [{ resize: { width: 1080, height: 1080 }}],
+      { base64: true, compress: 0.2 }
+    );
+
     if (!result.cancelled) {
-      const buf = new Buffer(result.base64, 'base64');
+      const buf = new Buffer(manipResult.base64, 'base64');
       const splitURI = result.uri.split('.');
       const lastItem = splitURI.length - 1;
       const type = splitURI[lastItem];

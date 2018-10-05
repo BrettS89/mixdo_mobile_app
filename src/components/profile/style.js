@@ -64,5 +64,26 @@ export const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: '500',
     color: Colors.main
+  },
+  spinnerButton: {
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    backgroundColor: Colors.main,
+    borderRadius: 4,
+    height: 40
+  },
+  zeroContainer: {
+    flex: 1,
+    marginTop: 90,
+    paddingLeft: 20,
+    paddingRight: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  zeroText: {
+    fontSize: 16,
+    textAlign: 'center',
+    color: 'gray',
+    marginBottom: 10,
   }
 });

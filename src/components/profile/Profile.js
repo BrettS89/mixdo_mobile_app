@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { Buffer } from 'buffer';
 import { View, Text, Modal, TouchableOpacity, FlatList, Image } from 'react-native';
-import { ImagePicker, Permissions } from 'expo';
+import { ImagePicker, Permissions, ImageManipulator } from 'expo';
 import { apiDeleteTodo } from '../../lib/api_calls';
 import { styles } from './style';
 import { Button, Input2, Spinner } from '../_shared';
@@ -94,10 +94,8 @@ class Profile extends React.Component {
     }
 
     const result = await ImagePicker.launchImageLibraryAsync({
-      base64: true,
       allowsEditing: true,
       aspect: [1, 1],
-      exif: false,
     });
     if (!result.cancelled) {
       await this.setState({
@@ -109,12 +107,17 @@ class Profile extends React.Component {
   finishTodo = async () => {
     await this.setState({ loading: true, status: 'finish' });
     if(this.state.image) {
-      const buf = new Buffer(this.state.image.base64, 'base64');
+      const manipResult = await ImageManipulator.manipulate(
+        this.state.image.uri,
+        [{ resize: { width: 1080, height: 1080 }}],
+        { base64: true, compress: 0.2 }
+      );
+      const buf = new Buffer(manipResult.base64, 'base64');
       const splitURI = this.state.image.uri.split('.');
       const lastItem = splitURI.length - 1;
       const type = splitURI[lastItem];
       await this.props.getAwsUrl(type);
-      await axios.put(this.props.state.awsUrl.url, buf, {
+      axios.put(this.props.state.awsUrl.url, buf, {
         headers: {
           'Content-Type': `image/${type}`,
           'Content-Encoding': 'base64',
@@ -129,25 +132,24 @@ class Profile extends React.Component {
   finishOrSpinner = () => {
     if(this.state.loading && this.state.status === 'finish') {
       return (
-        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-          <Spinner size="large" />
+        <View style={{ marginBottom: 30 }}>
+          <Spinner size="large" color="gray" />
         </View>
       );
     }
     return (
       <TouchableOpacity onPress={() => this.finishTodo()}>
-        <Check name="check-circle" size={150} style={styles.icon} color={Colors.secondary}/>
+        <Check name="check-circle" size={150}  color={Colors.secondary}/>
       </TouchableOpacity>
     );
   };
 
   addOrSpinner = () => {
     if(this.state.loading && this.state.status === 'add') {
-      console.log('ayo');
       return (
-        <Button>
+        <View style={styles.spinnerButton}>
           <Spinner size="small" />
-        </Button>
+        </View>
       );
     }
     return (
@@ -172,6 +174,18 @@ class Profile extends React.Component {
     }
   };
 
+  zeroTodos = () => {
+    if(this.state.todos.length === 0 && this.state.loading === false) {
+      return (
+        <View style={styles.zeroContainer}>
+          <Text style={styles.zeroText}>Add some todos!</Text>
+          <Text style={styles.zeroText}>When you add todos other users can view, like, or add them</Text>
+        </View>
+      );
+    }
+    return <View></View>;
+  };
+
   render() {
     return (
       <View style={styles.containerStyle}>
@@ -188,7 +202,7 @@ class Profile extends React.Component {
               </TouchableOpacity>
             </View>  
           </View>
-
+          {this.zeroTodos()}
         <View style={styles.listStyle}>
           <FlatList
             data={this.state.todos}
@@ -239,7 +253,7 @@ class Profile extends React.Component {
                 {this.displayAddImageText()}
               </View>
 
-              <View style={{ alignItems: 'center', paddingBottom: 20 }}>
+              <View style={{ alignItems: 'center', justifyContent: 'center', paddingBottom: 20 }}>
                 {this.finishOrSpinner()}
                 <Text style={{ color: 'gray' }}>tap to finish</Text>
               </View>

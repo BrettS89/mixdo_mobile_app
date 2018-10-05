@@ -1,4 +1,5 @@
 import React from 'react';
+import { Constants } from 'expo';
 import { View, AsyncStorage } from 'react-native';
 import { Asset, SplashScreen } from 'expo';
 import { doFacebookAuth } from '../../services/facebook';
@@ -11,7 +12,6 @@ class Login extends React.Component {
   state = { error: false };
 
   componentWillMount() {
-    console.log('hi');
     SplashScreen.preventAutoHide();
   }
 
@@ -32,7 +32,8 @@ class Login extends React.Component {
 
   async onLogin(email, password) {
     this.setState({ error: false });
-    await this.props.login({ email, password });
+    const deviceName = Constants.deviceName;
+    await this.props.login({ email, password, deviceName });
     if(this.props.state.login.payload ===  'Got an error') {
       this.setState({ error: true })
     } else {

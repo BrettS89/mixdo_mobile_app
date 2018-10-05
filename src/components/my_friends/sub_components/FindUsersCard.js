@@ -78,7 +78,7 @@ class FindUserCard extends React.Component {
           {this.renderProfileImage()}
           <TouchableWithoutFeedback onPress={() => this.viewProfile()}>
             <View>
-              <Text style={styles.userText} >{this.props.user.firstName} {this.props.user.lastName}</Text>
+              <Text style={styles.userText} >{this.props.user.fullName}</Text>
             </View>
           </TouchableWithoutFeedback>
         </View>

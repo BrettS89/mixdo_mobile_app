@@ -1,4 +1,5 @@
 import React from 'react';
+import Expo from 'expo';
 import { View, AsyncStorage } from 'react-native';
 import { doFacebookAuth } from '../../services/facebook';
 import { styles } from './styles';
@@ -10,7 +11,8 @@ class Signup extends React.Component {
 
   async onSignup(firstName, lastName, email, password) {
     this.setState({ error: false });
-    await this.props.signup({ firstName, lastName, email, password });
+    const deviceName = Expo.Constants.deviceName;
+    await this.props.signup({ firstName, lastName, email, password, deviceName });
     if(this.props.state.signup.payload ===  'Error') {
       this.setState({ error: true })
     } else {

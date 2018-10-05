@@ -3,7 +3,6 @@ import { apiSavePushToken } from '../lib/api_calls';
 
 export default async () => {
   let { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-
   if(status !== 'granted') {
     return;
   }

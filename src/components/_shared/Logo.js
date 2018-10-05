@@ -7,7 +7,7 @@ const Logo = props => {
   return (
     <View style={styles.logoContainer}>
       {/* <Text style={styles.logoText}>Mixdo</Text> */}
-      <Image source={logo} resizeMode="contain" style={{ width: 100, alignItems: 'flex-end', marginBottom: 1 }}/>
+      <Image source={logo} resizeMode="contain" style={{ width: 100, alignItems: 'flex-end' }}/>
     </View>
   );
 };
