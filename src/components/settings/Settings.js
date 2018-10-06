@@ -58,7 +58,7 @@ class Settings extends React.Component {
         }
       });
 
-      const user = await apiUploadProfilePhoto({ photo: `https://s3.amazonaws.com/mixdodev/${this.props.state.awsUrl.key}` });
+      const user = await apiUploadProfilePhoto({ photo: `https://s3.amazonaws.com/${this.props.state.awsUrl.bucket}/${this.props.state.awsUrl.key}` });
       this.setState({ firstName: user.firstName, lastName: user.lastName, fullName: user.fullName, photo: user.photo });
     }
   }

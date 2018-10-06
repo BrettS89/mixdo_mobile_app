@@ -22,7 +22,6 @@ class Post extends React.Component {
     const preDate = this.props.todo.item.createdDate.split(' ');
     const todoDate = [preDate[0], preDate[1], preDate[2]].join(' ');
     await this.setState({ date: todoDate });
-    console.log(todoDate, this.state.date)
   }
 
   renderProfileImage = () => {

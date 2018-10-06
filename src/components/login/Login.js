@@ -45,10 +45,10 @@ class Login extends React.Component {
   facebookAuth = async () => {
     try {
       const result = await doFacebookAuth();
-      console.log(result);
       if(result) {
         await AsyncStorage.setItem('token', result.token);
         if(result.status === 'signup') {
+          await pushNotifications();
           return this.props.navigation.navigate('FindTodos');
         }
         return this.props.navigation.navigate('main');
