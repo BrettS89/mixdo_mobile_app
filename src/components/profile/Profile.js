@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Buffer } from 'buffer';
-import { View, Text, Modal, TouchableOpacity, FlatList, Image } from 'react-native';
+import { View, Text, Modal, TouchableOpacity, FlatList, Keyboard } from 'react-native';
 import { ImagePicker, Permissions, ImageManipulator } from 'expo';
 import { apiDeleteTodo } from '../../lib/api_calls';
 import { styles } from './style';
@@ -186,6 +186,14 @@ class Profile extends React.Component {
     return <View></View>;
   };
 
+  onKeyPress = async description => {
+    await this.setState({ description });
+  };
+
+  onKeyPress2 = (key) => {
+    console.log('hi')
+  }
+
   render() {
     return (
       <View style={styles.containerStyle}>
@@ -226,7 +234,7 @@ class Profile extends React.Component {
             <View style={styles.modalSubContainer}>
               <Text style={styles.modalHeader}>Add a Todo</Text>
 
-              <Input2 labelText="Todo" placeholder="Do cool stuff" onChangeText={description => this.setState({ description })} />
+              <Input2 labelText="Todo" placeholder="Do cool stuff" onChangeText={description => this.onKeyPress(description)} onKeyPress={press => this.onKeyPress2(press)}/>
               <Input2 labelText="Description" placeholder="#CoolStuff #Winning"  onChangeText={metaData => this.setState({ metaData })} />
 
               <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 20 }}>

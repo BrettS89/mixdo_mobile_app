@@ -1,23 +1,28 @@
 import React from 'react';
-import { TextInput, View, Text, StyleSheet } from 'react-native';
+import { TextInput, View, Text, StyleSheet, Keyboard } from 'react-native';
 
-const Input2 = ({ labelText, value, onChangeText, placeholder, secureTextEntry }) => {
+const Input2 = ({ labelText, value, onChangeText, placeholder, secureTextEntry, onKeyPress }) => {
   const { label, textInput, container, inputView } = styles;
+
   return (
     <View style={container}>
       <Text style={label}>{labelText}</Text>
       <View style={inputView}>
       <TextInput
         secureTextEntry={secureTextEntry}
+        autoCorrect={true}
         style={textInput}
         value={value}
         onChangeText={onChangeText}
-        autoCorrect={false}
+        // onKeyPress={onKeyPress}
         placeholder={placeholder}
         multiline = {true}
         numberOfLines = {3}
         underlineColorAndroid="transparent"
         textAlignVertical="top"
+        onSubmitEditing={() => Keyboard.dismiss()}
+        returnKeyType="done"
+        blurOnSubmit={true}
       />
       </View>
     </View>  
