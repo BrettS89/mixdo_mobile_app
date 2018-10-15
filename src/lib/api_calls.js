@@ -343,6 +343,19 @@ export async function apiFinishTodo(todo) {
   }
 }
 
+//Flag a todo
+export async function apiFlagTodo(body) {
+  try {
+    const config = await getToken();
+    const { data } = await axios.post(`${URI}/todos/flag`, body, config);
+    await AsyncStorage.setItem('token', data.token);
+    return data.res;
+  }
+  catch(e) {
+    return 'error';
+  }
+}
+
 //Get user history
 export async function apiGetUserHistory() {
   try {
@@ -377,6 +390,19 @@ export async function apiUploadProfilePhoto(body) {
     return data;
   }
   catch(e) {
+    return 'error';
+  }
+}
+
+export async function apiDeleteUserAndTodos() {
+  try {
+    const config = await getToken();
+    const { data } = await axios.delete(`${URI}/users/delete`, config);
+    await AsyncStorage.setItem('token', data.token);
+    return data.res;
+  }
+  catch(e) {
+    console.log(e);
     return 'error';
   }
 }

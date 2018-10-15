@@ -73,6 +73,15 @@ class Settings extends React.Component {
     }
   };
 
+  deleteUser = async () => {
+    await this.props.deleteUser();
+    if (this.props.state.deleteUser.status === true) {
+      alert('Your account was successfuly deleted');
+      this.onLogout();
+    }
+    alert('There was a problem deleting your account');
+  };
+
   render() {
     return (
       <View style={styles.mainConainer}>
@@ -108,7 +117,7 @@ class Settings extends React.Component {
             </View>
 
             <View style={styles.contentBottom}>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => this.deleteUser()}>
                 <Text style={{ fontWeight: '500', color: '#FE4C4B', fontSize: 13 }}>Deactivate account</Text>
               </TouchableOpacity>  
             </View>

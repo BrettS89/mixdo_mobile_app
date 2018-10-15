@@ -15,6 +15,7 @@ export const LIKE_TODO = 'LIKE_TODO';
 export const ADD_USER_TODO = 'ADD_USER_TODO';
 export const FINISH_TODO = 'FINISH_TODO';
 export const GET_USER_HISTORY = 'GET_USER_HISTORY';
+export const FLAG_TODO = 'FLAG_TODO';
 
 //Users
 export const FIND_USERS = 'FIND_USERS';
@@ -26,6 +27,7 @@ export const MY_PROFILE = 'MY_PROFILE';
 export const GET_USER_PROFILE = 'GET_USER_PROFILE';
 export const SEARCH_USER = 'SEARCH_USER';
 export const FIND_USERS_INFINITE = 'FIND_USERS_INFINITE';
+export const DELETE_USER = 'DELETE_USER';
 
 //Notifications
 export const GET_NOTIFICATIONS = 'GET_NOTIFICATIONS';

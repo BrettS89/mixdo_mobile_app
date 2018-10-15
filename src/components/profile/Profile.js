@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Buffer } from 'buffer';
-import { View, Text, Modal, TouchableOpacity, FlatList, Keyboard } from 'react-native';
+import { View, Text, Modal, TouchableOpacity, FlatList } from 'react-native';
 import { ImagePicker, Permissions, ImageManipulator } from 'expo';
 import { apiDeleteTodo } from '../../lib/api_calls';
 import { styles } from './style';
@@ -59,7 +59,7 @@ class Profile extends React.Component {
     const { description, metaData } = this.state;
     await this.props.addTodo({ description, metaData });
     this.props.closeModal();
-    this.setState({ todos: [...this.state.todos, this.props.state.todo.payload], status: '', description: '', metaData: '' });
+    this.setState({ todos: [...this.state.todos, this.props.state.todo.payload], status: '', description: '', metaData: '', loading: false });
   }
 
   openFinishTodo = (todo) => {

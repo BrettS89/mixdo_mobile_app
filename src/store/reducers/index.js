@@ -23,6 +23,8 @@ import infinityDiscover from './infinityDiscover';
 import getUserHistory from './getUserHistory';
 import findUsersInfinite from './findUsersInfinite';
 import getAwsUrl from './getAwsUrl';
+import deleteUser from './deleteUser';
+import flagTodo from './flagTodo';
 
 const rootReducer = combineReducers({
   login,
@@ -49,6 +51,8 @@ const rootReducer = combineReducers({
   getUserHistory,
   findUsersInfinite,
   getAwsUrl,
+  deleteUser,
+  flagTodo,
 });
 
 export default rootReducer;

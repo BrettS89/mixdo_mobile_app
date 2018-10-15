@@ -6,6 +6,7 @@ import { likeTodo } from '../store/actions/likeTodo';
 import { addUserTodo } from '../store/actions/addUserTodo';
 import { infinityDiscover } from '../store/actions/infinityDiscover';
 import { getFollowers } from '../store/actions/getFollowers';
+import { flagTodo } from '../store/actions/flagTodo';
 import FindTodos from '../components/find_todos/FindTodos';
 
 function mapStateToProps(state) {
@@ -14,7 +15,8 @@ function mapStateToProps(state) {
     searchedTodos: state.searchTodos,
     likeTodo: state.likedTodo,
     addedTodo: state.addUserTodo,
-    infinityDiscovered: state.infinityDiscover
+    infinityDiscovered: state.infinityDiscover,
+    flaggedTodo: state.flagTodo,
   };
 }
 
@@ -24,5 +26,6 @@ export default connect(mapStateToProps, { discoverTodos,
                                           likeTodo, 
                                           addUserTodo, 
                                           infinityDiscover,
-                                          getFollowers
+                                          getFollowers,
+                                          flagTodo,
                                          })(FindTodos);

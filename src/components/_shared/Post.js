@@ -4,6 +4,7 @@ import { Todo } from '../_shared';
 import Like from 'react-native-vector-icons/Feather';
 import Add from 'react-native-vector-icons/MaterialCommunityIcons';
 import Comment from 'react-native-vector-icons/FontAwesome';
+import Options from 'react-native-vector-icons/Entypo';
 import { withNavigation } from 'react-navigation';
 import Colors from '../../shared/colors';
 import { apiFollowUser } from '../../lib/api_calls';
@@ -56,7 +57,7 @@ class Post extends React.Component {
   followUser = async () => {
     try {
       const followed = await apiFollowUser({ id: this.props.todo.item.user._id });
-      if(followed.success === true) {
+      if(followed.success === true || followed.status === 'alreadyFollowing') {
         await this.setState({ followed: true });
         this.props.getFollowers();
       }
@@ -173,9 +174,13 @@ class Post extends React.Component {
     if(this.props.todo.item.image) {
       return (
         <View style={ [styles.mainContainer2, { paddingTop: !this.props.todo.item.following && this.props.discover ? 4 : 10,} ] }>
-        <View style={{ alignItems: 'flex-end' }}>
+        <TouchableOpacity onPress={() => this.props.showFlag(this.props.todo.item._id)} style={{ position: 'absolute', top: 1, flexDirection: 'row', width: '100%', paddingTop: 5, justifyContent: 'flex-end', paddingRight: 5, zIndex: 50 }} >
+          <Options name="dots-three-vertical" size={20} color="lightgray"  />
+        </TouchableOpacity>
+        <View style={{ alignItems: 'flex-end', marginRight: 0 }}>
           {this.renderFollow()}
           {this.renderFollowing()}
+          
         </View>
         <View>
           <View style={{ paddingLeft: 10, paddingRight: 10 }}>
@@ -215,10 +220,10 @@ class Post extends React.Component {
 
             {this.renderAdded()}
 
-            <View style={styles.action}>
+            {/* <View style={styles.action}>
               <Comment name="comment-o" color="#ababab" size={20} style={{ marginBottom: 1 }} />
               <Text style={styles.actionsText}>Comment</Text>
-            </View>
+            </View> */}
 
           </View>
         </View>
@@ -226,8 +231,12 @@ class Post extends React.Component {
       );
     }
     return (
+      <View>
+        <TouchableOpacity onPress={() => this.props.showFlag(this.props.todo.item._id)} style={{ position: 'absolute', top: 1, flexDirection: 'row', width: '100%', paddingTop: 5, paddingRight: 5, justifyContent: 'flex-end', zIndex: 50 }} >
+          <Options name="dots-three-vertical" size={20} color="lightgray"  />
+        </TouchableOpacity>
       <View style={[this.props.todo.item.finished ? styles.mainContainerFinished : styles.mainContainer, { paddingTop: !this.props.todo.item.following && this.props.discover ? 4 : 10, }]}>
-        <View style={{ alignItems: 'flex-end' }}>
+        <View style={{ alignItems: 'flex-end', paddingLeft: 10 }}>
           {this.renderFollow()}
           {this.renderFollowing()}
         </View>
@@ -263,13 +272,14 @@ class Post extends React.Component {
 
             {this.renderAdded()}
 
-            <View style={styles.action}>
+            {/* <View style={styles.action}>
               <Comment name="comment-o" color="#ababab" size={20} style={{ marginBottom: 1 }} />
               <Text style={styles.actionsText}>Comment</Text>
-            </View>
+            </View> */}
 
           </View>
         </View>
+      </View>
       </View>
     );
   }
@@ -357,7 +367,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    width: '80%'
+    width: '55%'
   },
   action: {
     justifyContent: 'center',

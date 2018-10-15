@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, FlatList, Keyboard } from 'react-native';
+import { View, Text, FlatList, Keyboard, Modal, TouchableOpacity } from 'react-native';
 import { styles } from './styles';
 import Post from '../_shared/Post';
 import { Input3 } from '../_shared';
@@ -8,7 +8,9 @@ class FindTodos extends React.Component{
   state = {
     todos: [],
     search: '',
-    refreshing: false
+    refreshing: false,
+    showFlag: false,
+    toFlag: '',
   };
 
   componentWillMount() {
@@ -67,6 +69,21 @@ class FindTodos extends React.Component{
   }
 };
 
+  showFlagModal = (todo) => {
+    this.setState({ showFlag: true, toFlag: todo });
+  };
+
+  flagTodo = async () => {
+    await this.props.flagTodo({ id: this.state.toFlag });
+    if(this.props.flaggedTodo.payload.status) {
+      alert('Todo flagged for review');
+      this.getTodos();
+    } else {
+      alert('an error occured');
+    }
+    this.setState({ showFlag: false, toFlag: '' });
+  };
+
   render() {
     return (
       <View style={styles.mainContainer}>
@@ -80,7 +97,15 @@ class FindTodos extends React.Component{
         <FlatList 
           data={this.state.todos}
           renderItem={(todo) => (
-            <Post todo={todo} navigateToProfile={this.navigateToProfile} likeTodo={this.likeTodo} addUserTodo={this.addUserTodo} discover getFollowers={this.getFollowers}/>
+            <Post 
+              todo={todo} 
+              navigateToProfile={this.navigateToProfile} 
+              likeTodo={this.likeTodo} addUserTodo={this.addUserTodo} 
+              discover 
+              getFollowers={this.getFollowers} 
+              showFlag={this.showFlagModal} 
+              flagTodo={this.flagTodo}
+              />
           )}
           onEndReached={this.handleEnd}
           onEndReachedThreshold={1}
@@ -89,6 +114,24 @@ class FindTodos extends React.Component{
           refreshing={this.state.refreshing}
           onRefresh={this.getTodos}
         />
+
+        <Modal
+        transparent
+        visible={this.state.showFlag === true}
+        // onRequestClose={() => this.setState({ finishTodo: false })}
+        >
+          <View style={styles.modalContainer}>
+            <View style={styles.modalSubContainer2}>
+              <TouchableOpacity style={styles.flagContent} onPress={() => this.flagTodo()}>
+                <Text style={styles.flagContentText}>Flag content</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => this.setState({ showFlag: false })}>
+                <Text style={styles.cancelText}>Cancel</Text>
+              </TouchableOpacity>
+            </View>
+          </View>  
+        </Modal>
+
       </View>  
     );
   }

@@ -20,13 +20,13 @@ class FindUserCard extends React.Component {
   followUser = async () => {
     try {
       const followed = await apiFollowUser({ id: this.props.user._id });
-      if(followed.success === true) {
+      if(followed.success === true || followed.status === 'alreadyFollowing') {
         await this.setState({ following: true });
         this.props.getFollowers();
       }
     }
     catch(e) {
-      console.log(e)
+      console.log(e);
     }
   }
 
