@@ -4,6 +4,7 @@ import { Input, Spinner } from '../../_shared';
 import { styles } from '../styles';
 import Colors from '../../../shared/colors';
 import Icon from 'react-native-vector-icons/Entypo';
+import Chevron from 'react-native-vector-icons/Entypo';
 
 class LoginForm extends React.Component {
   state = { 
@@ -109,6 +110,14 @@ class LoginForm extends React.Component {
             <Text style={{ color: Colors.main, fontWeight: '700' }}> Sign Up</Text>
           </TouchableOpacity>
         </View>
+
+        {/* <View style={styles.tcContainer}> */}
+          <TouchableOpacity style={styles.tcContainer} onPress={() => this.props.tc()}>
+            <Text style={styles.tcText}>By signing up or logging in you agree to our 
+            <Text style={styles.tcText2}> terms and conditions.</Text>
+            </Text>
+          </TouchableOpacity>
+        {/* </View> */}
 
       </View>
     );

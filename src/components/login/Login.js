@@ -59,10 +59,14 @@ class Login extends React.Component {
     }
   };
 
+  tc = () => {
+    this.props.navigation.navigate('TC');
+  }
+
   render() {
     return (
       <View style={styles.mainContainer}>
-        <LoginForm onLogin={this.onLogin.bind(this)} state={this.props.state} error={this.state.error} navigation={this.props.navigation} facebookAuth={this.facebookAuth}/>
+        <LoginForm onLogin={this.onLogin.bind(this)} state={this.props.state} error={this.state.error} navigation={this.props.navigation} facebookAuth={this.facebookAuth} tc={this.tc}/>
       </View> 
     );
   }

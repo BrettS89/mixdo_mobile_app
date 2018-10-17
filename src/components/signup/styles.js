@@ -46,4 +46,17 @@ export const styles = StyleSheet.create({
     fontWeight: '500',
     fontSize: 15
   },
+  tcContainer: {
+    flexDirection:'row',
+    marginTop: 35,
+  },
+  tcText: {
+    color: 'gray',
+    fontSize: 11,
+  },
+  tcText2: {
+    color: 'gray',
+    fontSize: 11,
+    fontWeight: '700',
+  }
 })

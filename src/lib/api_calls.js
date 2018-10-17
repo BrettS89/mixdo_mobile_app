@@ -36,6 +36,7 @@ export async function userSignup(body) {
     return data;
   }
   catch(e) {
+    console.log(e);
     return 'Error'
   }
 }

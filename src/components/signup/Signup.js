@@ -38,10 +38,14 @@ class Signup extends React.Component {
     }
   };
 
+  tc = () => {
+    this.props.navigation.navigate('TC');
+  }
+
   render() {
     return (
       <View style={styles.mainContainer}>
-        <SignupForm onSignup={this.onSignup.bind(this)} error={this.state.error} navigation={this.props.navigation} facebookAuth={this.facebookAuth}/>
+        <SignupForm onSignup={this.onSignup.bind(this)} error={this.state.error} navigation={this.props.navigation} facebookAuth={this.facebookAuth} tc={this.tc} />
       </View> 
     );
   }

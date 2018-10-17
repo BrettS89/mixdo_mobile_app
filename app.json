@@ -2,7 +2,7 @@
   "expo": {
     "name": "mixdo",
     "description": "This project is really great.",
-    "slug": "mixdo 1.0.0",
+    "slug": "mixdoprod",
     "privacy": "public",
     "sdkVersion": "29.0.0",
     "platforms": ["ios", "android"],

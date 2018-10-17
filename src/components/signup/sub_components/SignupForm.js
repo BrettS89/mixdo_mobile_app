@@ -17,6 +17,7 @@ class SignUpForm extends React.Component {
   };
 
   onButtonPress = async () => {
+    console.log('hi');
     this.setState({ loading: true, button: 'signup' });
     await this.props.onSignup(this.state.firstName, this.state.lastName, this.state.email, this.state.password);
     this.setState({ loading: false, firstName: '', lastName: '', email: '', password: '', button: '' });
@@ -124,6 +125,12 @@ class SignUpForm extends React.Component {
         <View>
           {this.spinnerOrFacebook()}  
         </View>
+
+        <TouchableOpacity style={styles.tcContainer} onPress={() => this.props.tc()}>
+          <Text style={styles.tcText}>By signing up or logging in you agree to our 
+          <Text style={styles.tcText2}> terms and conditions.</Text>
+          </Text>
+        </TouchableOpacity>
 
       </View>
     );

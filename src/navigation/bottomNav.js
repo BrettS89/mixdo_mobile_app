@@ -16,12 +16,14 @@ import MenuIcon from '../components/_shared/MenuIcon';
 import Settings from '../containers/Settings';
 import UserProfile from '../containers/UserProfile';
 import Welcome from '../containers/Welcome';
+import TC from '../containers/TC';
 import Colors from '../shared/colors';
 
 export const RootNav =  createBottomTabNavigator({
   Login: { screen: Login },
   Signup: { screen: Signup },
   Welcome: { screen: Welcome },
+  TC: { screen: TC },
 
   Settings: { screen: createStackNavigator({
       myProfile: { screen: Settings, navigationOptions: () => ({
