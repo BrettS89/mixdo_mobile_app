@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { Buffer } from 'buffer';
 import { View, Text, Modal, TouchableOpacity, FlatList } from 'react-native';
-import { ImagePicker, Permissions, ImageManipulator } from 'expo';
+import { ImagePicker, Camera, Permissions, ImageManipulator } from 'expo';
 import { apiDeleteTodo } from '../../lib/api_calls';
 import { styles } from './style';
 import { Button, Input2, Spinner } from '../_shared';
@@ -11,6 +11,10 @@ import Check from 'react-native-vector-icons/FontAwesome';
 import Colors from '../../shared/colors'; 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Check2 from 'react-native-vector-icons/FontAwesome';
+import CameraIcon from 'react-native-vector-icons/FontAwesome';
+import FlashOff from 'react-native-vector-icons/MaterialIcons';
+import FlashOn from 'react-native-vector-icons/MaterialIcons';
+import Flip from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
 class Profile extends React.Component {
@@ -28,6 +32,9 @@ class Profile extends React.Component {
     image: null,
     loading: false,
     status: '',
+    openCamera: false,
+    flash: false,
+    photoOptions: false,
   };
 
   componentWillMount() {
@@ -67,7 +74,7 @@ class Profile extends React.Component {
   };
 
   closeFinishTodo = () => {
-    this.setState({ finishTodo: false, toFinish: '', toDelete: '' });
+    this.setState({ finishTodo: false, toFinish: '', toDelete: '', image: null });
   };
 
   displayAddImageText = () => {
@@ -80,12 +87,28 @@ class Profile extends React.Component {
       );
     }
     return (
-      <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => this.uploadImage()}>
+      <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => this.setState({ photoOptions: true })}>
         <Icon size={26} color={Colors.main} name="image" />
         <Text style={{ fontWeight: '600', color: Colors.main, marginLeft: 3 }}>Add a photo</Text>
       </TouchableOpacity>
     )
   };
+
+  takePicture = async () => {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    if(status !== 'granted') {
+      return;
+    }
+    let photo = await this.camera.takePictureAsync();
+    console.log(photo);
+  };
+
+  renderFlash = () => {
+    if(this.state.flash) {
+      return <FlashOn name="flash-on" size={24} color="#ffffff" />
+    }
+    return <FlashOff size={24} name="flash-off" color="#ffffff" />
+  }
 
   uploadImage = async () => {
     const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
@@ -100,6 +123,7 @@ class Profile extends React.Component {
     if (!result.cancelled) {
       await this.setState({
         image: result,
+        photoOptions: false,
       });
     }   
   };
@@ -197,6 +221,7 @@ class Profile extends React.Component {
   render() {
     return (
       <View style={styles.containerStyle}>
+      
         <View style={styles.optionsContainer}>
             <View>
               <Text style={styles.optionText}>{this.state.list === 'Todo List' ? 'Todo List' : 'Todo History'}</Text>
@@ -211,6 +236,7 @@ class Profile extends React.Component {
             </View>  
           </View>
           {this.zeroTodos()}
+          
         <View style={styles.listStyle}>
           <FlatList
             data={this.state.todos}
@@ -279,6 +305,57 @@ class Profile extends React.Component {
             </View>
           </View>  
         </Modal> 
+
+        <Modal
+            transparent
+            visible={this.state.photoOptions}
+            onRequestClose={() => this.setState({ photoOptions: false })}
+          >
+          <View style={styles.modalContainer}>
+            <View style={styles.modalSubContainer3}>
+              <View style={{ width: 145, height: 200, justifyContent: 'center' }}>
+                <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }} onPress={() => this.uploadImage()}>
+                  <Icon size={26} color={Colors.main} name="image" />
+                  <Text style={{ fontWeight: '600', color: Colors.main, marginLeft: 5 }}>Add from gallery</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginTop: 12, marginLeft: 2 }} onPress={() => this.setState({ openCamera: true })}>
+                  <CameraIcon size={20} color={Colors.main} name="camera" />
+                  <Text style={{ fontWeight: '600', color: Colors.main, marginLeft: 7 }}>Snap a photo</Text>
+                </TouchableOpacity>
+              </View>
+              <TouchableOpacity style={{ position: 'absolute', marginTop: 170 }} onPress={() => this.setState({ photoOptions: false, finishTodo: true })}>
+                <Text style={{ color: 'lightgray' }}>Back</Text>
+              </TouchableOpacity>
+            </View>
+          </View>  
+        </Modal> 
+
+        <Modal
+          transparent
+          visible={this.state.openCamera}
+          onRequestClose={() => this.setState({ openCamera: false })}
+        >
+          <View style={styles.cameraModalContainer}>
+            <TouchableOpacity onPress={() => this.setState({ openCamera: false })}>
+              <Text style={styles.cameraActionText}>Close</Text>
+            </TouchableOpacity>
+
+                <Camera ratio="1:1" ref={ref => { this.camera = ref; }} style={{ width: '100%', aspectRatio: 1/1  }} />
+
+            <View style={styles.cameraActionsContainer}>
+              <TouchableOpacity>
+                <Flip name="rotate-3d" size={24} color="#ffffff" />
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <CameraIcon name="camera" size={24} color="#ffffff" />
+              </TouchableOpacity>
+              <TouchableOpacity>
+                {this.renderFlash()}
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
+
       </View> 
     );
   }

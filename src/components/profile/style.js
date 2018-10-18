@@ -42,6 +42,12 @@ export const styles = StyleSheet.create({
     justifyContent: 'center', 
     alignItems: 'center'
   },
+  cameraModalContainer: {
+    backgroundColor: 'rgba(0, 0, 0, 0.9)', 
+    flex: 1, 
+    justifyContent: 'space-around', 
+    alignItems: 'center'
+  },
   modalSubContainer: {
     backgroundColor: '#ffffff', 
     height: 400, 
@@ -56,6 +62,13 @@ export const styles = StyleSheet.create({
     height: 400, 
     width: 320,
     padding: 30,
+    alignItems: 'center',
+    borderRadius: 6
+  },
+  modalSubContainer3: {
+    backgroundColor: '#ffffff', 
+    height: 200, 
+    width: 260,
     alignItems: 'center',
     borderRadius: 6
   },
@@ -85,5 +98,14 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     color: 'gray',
     marginBottom: 10,
+  },
+  cameraActionsContainer: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    // paddingHorizontal: 20,
+  },
+  cameraActionText: {
+    color: '#ffffff',
   }
 });
