@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Buffer } from 'buffer';
-import { View, Text, Modal, TouchableOpacity, FlatList } from 'react-native';
+import { View, Text, Modal, TouchableOpacity, FlatList, Image } from 'react-native';
 import { ImagePicker, Camera, Permissions, ImageManipulator } from 'expo';
 import { apiDeleteTodo } from '../../lib/api_calls';
 import { styles } from './style';
@@ -33,8 +33,12 @@ class Profile extends React.Component {
     loading: false,
     status: '',
     openCamera: false,
-    flash: false,
+    flashMode: Camera.Constants.FlashMode.off,
     photoOptions: false,
+    type: Camera.Constants.Type.back,
+    cameraLoad: false,
+    cameraLoad2: false,
+    snap: true,
   };
 
   componentWillMount() {
@@ -94,28 +98,60 @@ class Profile extends React.Component {
     )
   };
 
-  takePicture = async () => {
+  SnapOrSpinner = () => {
+    if(this.state.snap) {
+      return <View style={{ width: 30, height: 30 }}><CameraIcon size={20} color={Colors.main} name="camera" /></View>;
+    }
+    return <View style={{ width: 30, height: 30 }}><Spinner color="gray" size="small" /></View>;
+  }
+
+  renderFlash = () => {
+    if(this.state.flashMode === Camera.Constants.FlashMode.on) {
+      return ( 
+        <TouchableOpacity onPress={() => this.toggleFlash()}>
+          <FlashOn name="flash-on" size={24} color="#ffffff" />
+        </TouchableOpacity>
+      )
+    }
+    return ( 
+      <TouchableOpacity onPress={() => this.toggleFlash()}>
+        <FlashOn name="flash-off" size={24} color="#ffffff" />
+      </TouchableOpacity>
+    )
+  };
+
+  toggleFlash = () => {
+    if(this.state.flashMode === Camera.Constants.FlashMode.on) {
+      return this.setState({ flashMode: Camera.Constants.FlashMode.off });
+    }
+    if(this.state.flashMode === Camera.Constants.FlashMode.off) {
+      return this.setState({ flashMode: Camera.Constants.FlashMode.on });
+    }
+  };
+
+  toggleType = () => {
+    if(this.state.type === Camera.Constants.Type.back) {
+      return this.setState({ type: Camera.Constants.Type.front });
+    }
+    if(this.state.type === Camera.Constants.Type.front) {
+      return this.setState({ type: Camera.Constants.Type.back });
+    }
+  };
+
+  openCamera = async () => {
+    await this.setState({ snap: false });
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     if(status !== 'granted') {
       return;
     }
-    let photo = await this.camera.takePictureAsync();
-    console.log(photo);
+    this.setState({ openCamera: true });
   };
-
-  renderFlash = () => {
-    if(this.state.flash) {
-      return <FlashOn name="flash-on" size={24} color="#ffffff" />
-    }
-    return <FlashOff size={24} name="flash-off" color="#ffffff" />
-  }
 
   uploadImage = async () => {
     const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
     if (status !== 'granted') {
       return;
     }
-
     const result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       aspect: [1, 1],
@@ -128,13 +164,32 @@ class Profile extends React.Component {
     }   
   };
 
+  takePicture = async () => {
+    await this.setState({ cameraLoad2: true, snap: true });
+    await this.setState({ cameraLoad2: false });
+    setTimeout( async () => {
+      await this.setState({ cameraLoad: true });
+      let photo = await this.camera.takePictureAsync();
+      await this.setState({ image: photo, openCamera: false, photoOptions: false, cameraLoad: false });
+    }, 100);
+  };
+
+  renderImageWhilePhotoLoading = () => {
+    if(this.state.cameraLoad2) {
+      return (
+        <View style={{ width: '100%', aspectRatio: 1/1  }}></View>
+      );
+    }
+    return <Camera autoFocus={Camera.Constants.AutoFocus.on} ratio="1:1" type={this.state.type} flashMode={this.state.flashMode} ref={ref => { this.camera = ref; }} style={{ width: '100%', aspectRatio: 1/1  }} />;
+  };
+
   finishTodo = async () => {
     await this.setState({ loading: true, status: 'finish' });
     if(this.state.image) {
       const manipResult = await ImageManipulator.manipulate(
         this.state.image.uri,
         [{ resize: { width: 1080, height: 1080 }}],
-        { base64: true, compress: 0.2 }
+        { base64: true, compress: 0.6 }
       );
       const buf = new Buffer(manipResult.base64, 'base64');
       const splitURI = this.state.image.uri.split('.');
@@ -164,6 +219,19 @@ class Profile extends React.Component {
     return (
       <TouchableOpacity onPress={() => this.finishTodo()}>
         <Check name="check-circle" size={150}  color={Colors.secondary}/>
+      </TouchableOpacity>
+    );
+  };
+
+  cameraOrSpinner = () => {
+    if(this.state.cameraLoad) {
+      return (
+        <Spinner />
+      )
+    }
+    return (
+      <TouchableOpacity onPress={() => this.takePicture()}>
+        <CameraIcon name="camera" size={24} color="#ffffff" />
       </TouchableOpacity>
     );
   };
@@ -315,12 +383,14 @@ class Profile extends React.Component {
             <View style={styles.modalSubContainer3}>
               <View style={{ width: 145, height: 200, justifyContent: 'center' }}>
                 <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }} onPress={() => this.uploadImage()}>
-                  <Icon size={26} color={Colors.main} name="image" />
+                  <View style={{ width: 30 }}>
+                    <Icon size={26} color={Colors.main} name="image" />
+                  </View>
                   <Text style={{ fontWeight: '600', color: Colors.main, marginLeft: 5 }}>Add from gallery</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginTop: 12, marginLeft: 2 }} onPress={() => this.setState({ openCamera: true })}>
-                  <CameraIcon size={20} color={Colors.main} name="camera" />
-                  <Text style={{ fontWeight: '600', color: Colors.main, marginLeft: 7 }}>Snap a photo</Text>
+                <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginTop: 12, marginLeft: 2 }} onPress={() => this.openCamera()}>
+                  {this.SnapOrSpinner()}
+                  <Text style={{ fontWeight: '600', color: Colors.main, marginLeft: 5, height: 30 }}>Snap a photo</Text>
                 </TouchableOpacity>
               </View>
               <TouchableOpacity style={{ position: 'absolute', marginTop: 170 }} onPress={() => this.setState({ photoOptions: false, finishTodo: true })}>
@@ -333,22 +403,20 @@ class Profile extends React.Component {
         <Modal
           transparent
           visible={this.state.openCamera}
-          onRequestClose={() => this.setState({ openCamera: false })}
+          onRequestClose={() => this.setState({ openCamera: false, snap: true })}
         >
           <View style={styles.cameraModalContainer}>
-            <TouchableOpacity onPress={() => this.setState({ openCamera: false })}>
+            <TouchableOpacity onPress={() => this.setState({ openCamera: false, snap: true })}>
               <Text style={styles.cameraActionText}>Close</Text>
             </TouchableOpacity>
 
-                <Camera ratio="1:1" ref={ref => { this.camera = ref; }} style={{ width: '100%', aspectRatio: 1/1  }} />
+            {this.renderImageWhilePhotoLoading()}
 
             <View style={styles.cameraActionsContainer}>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => this.toggleType()}>
                 <Flip name="rotate-3d" size={24} color="#ffffff" />
               </TouchableOpacity>
-              <TouchableOpacity>
-                <CameraIcon name="camera" size={24} color="#ffffff" />
-              </TouchableOpacity>
+                {this.cameraOrSpinner()}
               <TouchableOpacity>
                 {this.renderFlash()}
               </TouchableOpacity>

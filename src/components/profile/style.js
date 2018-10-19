@@ -43,7 +43,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center'
   },
   cameraModalContainer: {
-    backgroundColor: 'rgba(0, 0, 0, 0.9)', 
+    backgroundColor: 'rgba(0, 0, 0, 0.8)', 
     flex: 1, 
     justifyContent: 'space-around', 
     alignItems: 'center'

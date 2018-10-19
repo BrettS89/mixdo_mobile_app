@@ -118,7 +118,7 @@ class FindTodos extends React.Component{
         <Modal
         transparent
         visible={this.state.showFlag === true}
-        // onRequestClose={() => this.setState({ finishTodo: false })}
+        onRequestClose={() => this.setState({ showFlag: false })}
         >
           <View style={styles.modalContainer}>
             <View style={styles.modalSubContainer2}>
