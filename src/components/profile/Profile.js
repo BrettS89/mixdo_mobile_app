@@ -372,58 +372,56 @@ class Profile extends React.Component {
               </View>
             </View>
           </View>  
-        </Modal> 
 
-        <Modal
-            transparent
-            visible={this.state.photoOptions}
-            onRequestClose={() => this.setState({ photoOptions: false })}
-          >
-          <View style={styles.modalContainer}>
-            <View style={styles.modalSubContainer3}>
-              <View style={{ width: 145, height: 200, justifyContent: 'center' }}>
-                <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }} onPress={() => this.uploadImage()}>
-                  <View style={{ width: 30 }}>
-                    <Icon size={26} color={Colors.main} name="image" />
-                  </View>
-                  <Text style={{ fontWeight: '600', color: Colors.main, marginLeft: 5 }}>Add from gallery</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginTop: 12, marginLeft: 2 }} onPress={() => this.openCamera()}>
-                  {this.SnapOrSpinner()}
-                  <Text style={{ fontWeight: '600', color: Colors.main, marginLeft: 5, height: 30 }}>Snap a photo</Text>
+            <Modal
+              transparent
+              visible={this.state.photoOptions}
+              onRequestClose={() => this.setState({ photoOptions: false })}
+            >
+            <View style={styles.modalContainer}>
+              <View style={styles.modalSubContainer3}>
+                <View style={{ width: 145, height: 200, justifyContent: 'center' }}>
+                  <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }} onPress={() => this.uploadImage()}>
+                    <View style={{ width: 30 }}>
+                      <Icon size={26} color={Colors.main} name="image" />
+                    </View>
+                    <Text style={{ fontWeight: '600', color: Colors.main, marginLeft: 5 }}>Add from gallery</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginTop: 12, marginLeft: 2 }} onPress={() => this.openCamera()}>
+                    {this.SnapOrSpinner()}
+                    <Text style={{ fontWeight: '600', color: Colors.main, marginLeft: 5, height: 30 }}>Snap a photo</Text>
+                  </TouchableOpacity>
+                </View>
+                <TouchableOpacity style={{ position: 'absolute', marginTop: 170 }} onPress={() => this.setState({ photoOptions: false, finishTodo: true })}>
+                  <Text style={{ color: 'lightgray' }}>Back</Text>
                 </TouchableOpacity>
               </View>
-              <TouchableOpacity style={{ position: 'absolute', marginTop: 170 }} onPress={() => this.setState({ photoOptions: false, finishTodo: true })}>
-                <Text style={{ color: 'lightgray' }}>Back</Text>
-              </TouchableOpacity>
             </View>
-          </View>  
-        </Modal> 
+            <Modal
+              transparent
+              visible={this.state.openCamera}
+              onRequestClose={() => this.setState({ openCamera: false, snap: true })}
+            >
+              <View style={styles.cameraModalContainer}>
+                <TouchableOpacity onPress={() => this.setState({ openCamera: false, snap: true })}>
+                  <Text style={styles.cameraActionText}>Close</Text>
+                </TouchableOpacity>
 
-        <Modal
-          transparent
-          visible={this.state.openCamera}
-          onRequestClose={() => this.setState({ openCamera: false, snap: true })}
-        >
-          <View style={styles.cameraModalContainer}>
-            <TouchableOpacity onPress={() => this.setState({ openCamera: false, snap: true })}>
-              <Text style={styles.cameraActionText}>Close</Text>
-            </TouchableOpacity>
+                {this.renderImageWhilePhotoLoading()}
 
-            {this.renderImageWhilePhotoLoading()}
-
-            <View style={styles.cameraActionsContainer}>
-              <TouchableOpacity onPress={() => this.toggleType()}>
-                <Flip name="rotate-3d" size={24} color="#ffffff" />
-              </TouchableOpacity>
-                {this.cameraOrSpinner()}
-              <TouchableOpacity>
-                {this.renderFlash()}
-              </TouchableOpacity>
-            </View>
-          </View>
+                <View style={styles.cameraActionsContainer}>
+                  <TouchableOpacity onPress={() => this.toggleType()}>
+                    <Flip name="rotate-3d" size={24} color="#ffffff" />
+                  </TouchableOpacity>
+                    {this.cameraOrSpinner()}
+                  <TouchableOpacity>
+                    {this.renderFlash()}
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </Modal>
+          </Modal> 
         </Modal>
-
       </View> 
     );
   }
