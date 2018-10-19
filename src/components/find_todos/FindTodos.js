@@ -11,6 +11,7 @@ class FindTodos extends React.Component{
     refreshing: false,
     showFlag: false,
     toFlag: '',
+    results: true,
   };
 
   componentWillMount() {
@@ -18,7 +19,7 @@ class FindTodos extends React.Component{
   }
 
   getTodos = async () => {
-    await this.setState({ todos: [], refreshing: true });
+    await this.setState({ todos: [], refreshing: true, results: true });
     await this.props.discoverTodos();
     this.setState({ todos: this.props.todos.payload, refreshing: false });
   };
@@ -40,7 +41,21 @@ class FindTodos extends React.Component{
   onSearchSubmit = async () => {
     Keyboard.dismiss();
     await this.props.searchTodos(this.state.search);
-    this.setState({ todos: this.props.searchedTodos.payload });
+    if(this.props.searchedTodos.payload.length === 0) {
+      return this.setState({ todos: this.props.searchedTodos.payload, results: false });
+    }
+    await this.setState({ todos: this.props.searchedTodos.payload });
+  };
+
+  noSearchResults = () => {
+    if(!this.state.results) {
+      return (
+        <View style={{ padding: 15 }}>
+          <Text>No search results</Text>
+        </View>
+      );
+    }
+    return;
   };
 
   likeTodo = (todo) => {
@@ -93,7 +108,8 @@ class FindTodos extends React.Component{
             onChangeText={search => this.onSearchType(search)}
             onSearch={this.onSearchSubmit}
           />
-        </View>    
+        </View>
+        {this.noSearchResults()}
         <FlatList 
           data={this.state.todos}
           renderItem={(todo) => (
