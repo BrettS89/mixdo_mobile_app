@@ -1,7 +1,8 @@
 import React from 'react';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
-import { createStackNavigator, createMaterialTopTabNavigator, createBottomTabNavigator } from 'react-navigation';
-import Icon from 'react-native-vector-icons/Feather'
+import { createStackNavigator, createMaterialTopTabNavigator, createBottomTabNavigator, TabNavigator } from 'react-navigation';
+import Icon from 'react-native-vector-icons/Feather';
+import Icon2 from 'react-native-vector-icons/Octicons';
 import Profile from '../containers/Profile';
 import Feed from '../containers/Feed';
 import FindUsers from '../containers/FindUsers';
@@ -31,14 +32,6 @@ export const RootNav =  createBottomTabNavigator({
         headerRight: <MenuIcon/>,
         headerStyle: {
           backgroundColor: Colors.main,
-          // shadowColor: '#000000',
-          // borderBottomColor: '#f5f5f5',
-          // shadowOffset: {
-          //   width: 0,
-          //   height: 1
-          // },
-          // shadowRadius: 2,
-          // shadowOpacity: 0.2
           }
         }) 
       }
@@ -51,14 +44,6 @@ export const RootNav =  createBottomTabNavigator({
       headerRight: <MenuIcon/>,
       headerStyle: {
         backgroundColor: Colors.main,
-        // shadowColor: '#000000',
-        // borderBottomColor: '#f5f5f5',
-        // shadowOffset: {
-        //   width: 0,
-        //   height: 1
-        // },
-        // shadowRadius: 2,
-        // shadowOpacity: 0.2
         }
       }) 
     }
@@ -75,15 +60,6 @@ export const RootNav =  createBottomTabNavigator({
             headerRight: <MenuIcon/>,
             headerStyle: {
               backgroundColor: Colors.main,
-              // shadowColor: '#000000',
-              // borderBottomColor: Colors.third,
-              // borderBottomWidth: 2,
-              // shadowOffset: {
-              //   width: 0,
-              //   height: 1
-              // },
-              // shadowRadius: 2,
-              // shadowOpacity: 0.2
               }
             }) 
           }
@@ -104,14 +80,6 @@ export const RootNav =  createBottomTabNavigator({
             headerRight: <MenuIcon/>,
             headerStyle: {
               backgroundColor: Colors.main,
-              // shadowColor: '#000000',
-              // borderBottomColor: '#f5f5f5',
-              // shadowOffset: {
-              //   width: 0,
-              //   height: 1
-              // },
-              // shadowRadius: 2,
-              // shadowOpacity: 0.2
               }
             })
           }, 
@@ -132,14 +100,6 @@ export const RootNav =  createBottomTabNavigator({
               headerRight: <AddTodoButton/>,
               headerStyle: {
                 backgroundColor: Colors.main,
-                // shadowColor: '#000000',
-                // borderBottomColor: '#f5f5f5',
-                // shadowOffset: {
-                //   width: 0,
-                //   height: 1
-                // },
-                // shadowRadius: 2,
-                // shadowOpacity: 0.2
               }
             }) 
           }
@@ -180,13 +140,6 @@ export const RootNav =  createBottomTabNavigator({
             headerStyle: {
               backgroundColor: Colors.main,
               shadowColor: '#000000',
-              // borderBottomColor: '#ebebeb',
-              // shadowOffset: {
-              //   width: 0,
-              //   height: 1
-              // },
-              // shadowRadius: 2,
-              // shadowOpacity: 0.2
               }
             })
           }, 
@@ -217,6 +170,165 @@ export const RootNav =  createBottomTabNavigator({
       }
     })
   } 
+}, {
+  tabBarOptions: {
+    style: {
+      display: 'none'
+    }
+  }
+});
+
+
+
+
+export const RootNav3 =  createBottomTabNavigator({
+  Login: { screen: Login },
+  Signup: { screen: Signup },
+  Welcome: { screen: Welcome },
+  TC: { screen: TC },
+
+  Settings: { screen: createStackNavigator({
+    myProfile: { screen: Settings, navigationOptions: () => ({
+      headerLeft: <Logo />,
+      headerRight: <MenuIcon/>,
+      headerStyle: {
+        elevation: 0,
+        backgroundColor: Colors.main,
+        }
+      }) 
+    }
+  }) 
+},
+
+  UserProfile: { screen: createStackNavigator({
+    userProfile: { screen: UserProfile, navigationOptions: () => ({
+      headerLeft: <Logo />,
+      headerRight: <MenuIcon/>,
+      headerStyle: {
+        elevation: 0,
+        backgroundColor: Colors.main,
+        }
+      }) 
+    }
+  }) 
+},
+
+main: {
+
+  screen: createBottomTabNavigator({
+    Activity: {
+      screen: createStackNavigator({
+        Activity: { screen: Feed, navigationOptions: () => ({
+          headerLeft: <Logo />,
+          headerRight: <MenuIcon/>,
+          headerStyle: {
+            elevation: 0,
+            backgroundColor: Colors.main,
+            }
+          }) 
+        }
+      }),
+      navigationOptions: {
+        title: 'Feed',
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="activity" size={21}  color={tintColor}/>
+        )
+      } 
+    },
+
+
+    Notifications : {
+      screen: createStackNavigator({
+        Notification: { screen: Notifications, navigationOptions: () => ({
+          headerLeft: <Logo />,
+          headerRight: <MenuIcon/>,
+          headerStyle: {
+            elevation: 0,
+            backgroundColor: Colors.main,
+            }
+          })
+        }, 
+      }),
+      navigationOptions: {
+        title: 'Notifications',
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="bell" size={21} color={tintColor}/>
+        )
+      } 
+    },
+
+
+    Todos: {
+      screen: createStackNavigator({
+        Todos: { screen: Profile, navigationOptions: () => ({
+            headerLeft: <Logo />,
+            headerRight: <AddTodoButton/>,
+            headerStyle: {
+              elevation: 0,
+              backgroundColor: Colors.main,
+            }
+          }) 
+        }
+      }),
+      navigationOptions: {
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="edit" size={21} color={tintColor}/>
+        )
+      }
+    },
+
+
+    Users: {
+      screen: createMaterialTopTabNavigator({
+        FindUsers: { screen: FindUsers },
+        MyFriends: { screen: MyFriends }
+      }, {
+        tabBarOptions: {
+          style: {
+            elevation: 0,
+            backgroundColor: Colors.main,
+            height: 75,
+            justifyContent: 'flex-end'
+          }
+        }
+      }),
+      navigationOptions: {
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="users" size={21} color={tintColor}/>
+        )
+      }
+    },
+
+    FindTodos : {
+      screen: createStackNavigator({
+        Notifications: { screen: FindTodos, navigationOptions: () => ({
+          headerLeft: <Logo />,
+          headerRight: <MenuIcon/>,
+          headerStyle: {
+            backgroundColor: Colors.main,
+            elevation: 0,
+            }
+          })
+        }, 
+      }),
+      navigationOptions: {
+        title: 'Discover',
+        activeTintColor: Colors.purple,
+        tabBarIcon: ({ tintColor }) => (
+          <Icon2 name="search" size={19} color={tintColor}/>
+        )
+      }
+    },
+  }, {
+    navigationOptions: {
+      swipeEnabled: true,
+      tabBarOptions: {
+        activeTintColor: Colors.main,
+      }
+    }
+  })
+} 
+
 }, {
   tabBarOptions: {
     style: {

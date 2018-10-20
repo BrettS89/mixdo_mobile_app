@@ -267,7 +267,7 @@ class Profile extends React.Component {
   };
 
   zeroTodos = () => {
-    if(this.state.todos.length === 0 && this.state.loading === false) {
+    if(this.state.todos.length === 0 && !this.state.refreshing) {
       return (
         <View style={styles.zeroContainer}>
           <Text style={styles.zeroText}>Add some todos!</Text>
