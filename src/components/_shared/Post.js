@@ -174,9 +174,11 @@ class Post extends React.Component {
     if(this.props.todo.item.image) {
       return (
         <View style={ [styles.mainContainer2, { paddingTop: !this.props.todo.item.following && this.props.discover ? 4 : 10,} ] }>
-        <TouchableOpacity onPress={() => this.props.showFlag(this.props.todo.item._id)} style={{ position: 'absolute', top: 1, flexDirection: 'row', width: '100%', paddingTop: 5, justifyContent: 'flex-end', paddingRight: 5, zIndex: 50 }} >
-          <Options name="dots-three-vertical" size={20} color="lightgray"  />
-        </TouchableOpacity>
+          <View style={{ position: 'absolute', top: 1, flexDirection: 'row', width: '100%', paddingTop: 5, justifyContent: 'flex-end', paddingRight: 5, zIndex: 50 }}>
+            <TouchableOpacity onPress={() => this.props.showFlag(this.props.todo.item._id)}  >
+              <Options name="dots-three-vertical" size={20} color="lightgray"  />
+            </TouchableOpacity>
+          </View>
         <View style={{ alignItems: 'flex-end', marginRight: 0 }}>
           {this.renderFollow()}
           {this.renderFollowing()}
@@ -232,9 +234,11 @@ class Post extends React.Component {
     }
     return (
       <View>
-        <TouchableOpacity onPress={() => this.props.showFlag(this.props.todo.item._id)} style={{ position: 'absolute', top: 1, flexDirection: 'row', width: '100%', paddingTop: 5, paddingRight: 5, justifyContent: 'flex-end', zIndex: 50 }} >
-          <Options name="dots-three-vertical" size={20} color="lightgray"  />
-        </TouchableOpacity>
+        <View style={{ position: 'absolute', top: 1, flexDirection: 'row', width: '100%', paddingTop: 5, paddingRight: 5, justifyContent: 'flex-end', zIndex: 50 }}>
+          <TouchableOpacity onPress={() => this.props.showFlag(this.props.todo.item._id)}  >
+            <Options name="dots-three-vertical" size={20} color="lightgray"  />
+          </TouchableOpacity>
+        </View>
       <View style={[this.props.todo.item.finished ? styles.mainContainerFinished : styles.mainContainer, { paddingTop: !this.props.todo.item.following && this.props.discover ? 4 : 10, }]}>
         <View style={{ alignItems: 'flex-end', paddingLeft: 10 }}>
           {this.renderFollow()}

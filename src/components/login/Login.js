@@ -19,8 +19,8 @@ class Login extends React.Component {
     const token = await AsyncStorage.getItem('token');
     if(token) {
       try {
-        await apiTest();
-        return this.props.navigation.navigate('Activity');
+        // await apiTest();
+        // return this.props.navigation.navigate('Activity');
       }
       catch(e) {
         SplashScreen.hide();

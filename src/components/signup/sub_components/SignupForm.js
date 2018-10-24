@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { Button, Input, Spinner } from '../../_shared';
 import { styles } from '../styles';
 import Colors from '../../../shared/colors';
 import Icon from 'react-native-vector-icons/Entypo';
+const logo = require('../../../../assets/logoblue.png');
 
 class SignUpForm extends React.Component {
   state = { 
@@ -64,10 +65,10 @@ class SignUpForm extends React.Component {
         </TouchableOpacity>
 
         <View style={styles.logoContainer}>
-          <Text style={styles.logo}>Mixdo</Text>
+          <Image source={logo} resizeMode="contain" style={{ width: 150 }} />
         </View>
 
-        <View style={{ marginTop: 50, marginBottom: 0 }}>
+        <View style={{ marginTop: 15, marginBottom: 0 }}>
 
           <View>
             <Input 

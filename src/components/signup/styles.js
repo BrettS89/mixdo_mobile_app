@@ -10,7 +10,8 @@ export const styles = StyleSheet.create({
   },
   signupFormContainer: {
     width: 350,
-    height: 540,
+    height: '100%',
+    justifyContent: 'center',
     borderRadius: 3,
     padding: 50,
     paddingTop: 38,

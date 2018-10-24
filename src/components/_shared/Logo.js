@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import Colors from '../../shared/colors';
-const logo = require('../../../assets/m3.png');
+const logo = require('../../../assets/logowhite.png');
 
 const Logo = props => {
   return (

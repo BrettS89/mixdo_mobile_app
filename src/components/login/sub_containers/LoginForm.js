@@ -1,10 +1,11 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { Input, Spinner } from '../../_shared';
 import { styles } from '../styles';
 import Colors from '../../../shared/colors';
 import Icon from 'react-native-vector-icons/Entypo';
 import Chevron from 'react-native-vector-icons/Entypo';
+const logo = require('../../../../assets/logoblue.png');
 
 class LoginForm extends React.Component {
   state = { 
@@ -61,10 +62,11 @@ class LoginForm extends React.Component {
       <View style={styles.loginFormContainer}>
 
         <View style={styles.logoContainer}>
-          <Text style={styles.logo}>Mixdo</Text>
+          <Image source={logo} resizeMode="contain" style={{ width: 150 }} />
+          {/* <Text style={styles.logo}>Mixdo</Text> */}
         </View>
 
-        <View style={{ marginTop: 50, marginBottom: 15 }}>
+        <View style={{ marginTop: 40, marginBottom: 15 }}>
           <View>
             <Input 
               labelText="email"

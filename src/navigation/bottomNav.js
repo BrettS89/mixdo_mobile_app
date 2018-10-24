@@ -1,6 +1,8 @@
 import React from 'react';
+import { AsyncStorage } from 'react-native';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
-import { createStackNavigator, createMaterialTopTabNavigator, createBottomTabNavigator, TabNavigator } from 'react-navigation';
+import { createStackNavigator, createMaterialTopTabNavigator, createBottomTabNavigator, createSwitchNavigator, SwitchNavigator } from 'react-navigation';
+import { apiTest } from '../lib/api_calls';
 import Icon from 'react-native-vector-icons/Feather';
 import Icon2 from 'react-native-vector-icons/Octicons';
 import Profile from '../containers/Profile';
@@ -18,159 +20,17 @@ import Settings from '../containers/Settings';
 import UserProfile from '../containers/UserProfile';
 import Welcome from '../containers/Welcome';
 import TC from '../containers/TC';
+import Auth from '../containers/Auth';
 import Colors from '../shared/colors';
 
-export const RootNav =  createBottomTabNavigator({
+const authNav = createBottomTabNavigator({
+  Auth: { screen: Auth },
   Login: { screen: Login },
   Signup: { screen: Signup },
   Welcome: { screen: Welcome },
   TC: { screen: TC },
-
-  Settings: { screen: createStackNavigator({
-      myProfile: { screen: Settings, navigationOptions: () => ({
-        headerLeft: <Logo />,
-        headerRight: <MenuIcon/>,
-        headerStyle: {
-          backgroundColor: Colors.main,
-          }
-        }) 
-      }
-    }) 
-  },
-
-  UserProfile: { screen: createStackNavigator({
-    userProfile: { screen: UserProfile, navigationOptions: () => ({
-      headerLeft: <Logo />,
-      headerRight: <MenuIcon/>,
-      headerStyle: {
-        backgroundColor: Colors.main,
-        }
-      }) 
-    }
-  }) 
-},
-
-  main: {
-
-    screen: createMaterialBottomTabNavigator({
-      Activity: {
-        screen: createStackNavigator({
-          Activity: { screen: Feed, navigationOptions: () => ({
-            headerLeft: <Logo />,
-            headerRight: <MenuIcon/>,
-            headerStyle: {
-              backgroundColor: Colors.main,
-              }
-            }) 
-          }
-        }),
-        navigationOptions: {
-          title: 'Activity',
-          tabBarIcon: ({ tintColor }) => (
-            <Icon name="activity" size={25} style={{ paddingBottom: 20 }} color={tintColor}/>
-          )
-        } 
-      },
-
-
-      Notifications : {
-        screen: createStackNavigator({
-          Notification: { screen: Notifications, navigationOptions: () => ({
-            headerLeft: <Logo />,
-            headerRight: <MenuIcon/>,
-            headerStyle: {
-              backgroundColor: Colors.main,
-              }
-            })
-          }, 
-        }),
-        navigationOptions: {
-          title: 'Notifications',
-          tabBarIcon: ({ tintColor }) => (
-            <Icon name="bell" size={25} style={{ paddingBottom: 20 }} color={tintColor}/>
-          )
-        } 
-      },
-
-
-      Todos: {
-        screen: createStackNavigator({
-          Todos: { screen: Profile, navigationOptions: () => ({
-              headerLeft: <Logo />,
-              headerRight: <AddTodoButton/>,
-              headerStyle: {
-                backgroundColor: Colors.main,
-              }
-            }) 
-          }
-        }),
-        navigationOptions: {
-          tabBarIcon: ({ tintColor }) => (
-            <Icon name="edit" size={25} color={tintColor}/>
-          )
-        }
-      },
-
-
-      Users: {
-        screen: createMaterialTopTabNavigator({
-          FindUsers: { screen: FindUsers },
-          MyFriends: { screen: MyFriends }
-        }, {
-          tabBarOptions: {
-            style: {
-              backgroundColor: Colors.main,
-              height: 75,
-              justifyContent: 'flex-end'
-            }
-          }
-        }),
-        navigationOptions: {
-          tabBarIcon: ({ tintColor }) => (
-            <Icon name="users" size={25} color={tintColor}/>
-          )
-        }
-      },
-
-      FindTodos : {
-        screen: createStackNavigator({
-          Notifications: { screen: FindTodos, navigationOptions: () => ({
-            headerLeft: <Logo />,
-            headerRight: <MenuIcon/>,
-            headerStyle: {
-              backgroundColor: Colors.main,
-              shadowColor: '#000000',
-              }
-            })
-          }, 
-        }),
-        navigationOptions: {
-          title: 'Find Todos',
-          tabBarIcon: ({ tintColor }) => (
-            <Icon name="trending-up" size={25} color={tintColor}/>
-          )
-        } 
-      },
-
-
-    }, {
-      initialRouteName: 'Activity',
-      activeTintColor: Colors.logo,
-      shifting: true,
-      barStyle: { 
-        backgroundColor: Colors.footer,
-        borderTopWidth: 1,
-        borderTopColor: 'lightgray',
-       },
-      tabBarOptions: {
-        indicatorStyle: {
-          height: 0
-        },
-        shifting: true,
-      }
-    })
-  } 
 }, {
+  initialRouteName: 'Login',
   tabBarOptions: {
     style: {
       display: 'none'
@@ -178,15 +38,7 @@ export const RootNav =  createBottomTabNavigator({
   }
 });
 
-
-
-
-export const RootNav3 =  createBottomTabNavigator({
-  Login: { screen: Login },
-  Signup: { screen: Signup },
-  Welcome: { screen: Welcome },
-  TC: { screen: TC },
-
+export const RootNav3 = createBottomTabNavigator({
   Settings: { screen: createStackNavigator({
     myProfile: { screen: Settings, navigationOptions: () => ({
       headerLeft: <Logo />,
@@ -320,19 +172,41 @@ main: {
       }
     },
   }, {
+    initialRouteName: 'Activity',
     navigationOptions: {
-      swipeEnabled: true,
       tabBarOptions: {
         activeTintColor: Colors.main,
+        tabStyle: {
+          paddingVertical: 4,
+        }
       }
     }
   })
 } 
 
 }, {
+  initialRouteName: 'main',
   tabBarOptions: {
     style: {
       display: 'none'
     }
   }
 });
+
+export const rootNavigator = (signedIn) => {
+  let faker = false;
+  let initialRoute;
+  if(signedIn) {
+    initialRoute = 'SignedIn'
+  }
+  if(!signedIn) {
+    initialRoute = 'Login'
+  }
+  return createSwitchNavigator({
+    SignedIn: { screen: RootNav3 },
+    NotSignedIn: { screen: Auth },
+    Login: { screen: authNav }
+  }, {
+    initialRouteName: faker ? initialRoute : 'NotSignedIn'
+  });
+};

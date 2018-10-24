@@ -8,7 +8,7 @@
     "platforms": ["ios", "android"],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/mixdoicon.png",
     "facebookScheme": "fb736979746693999",
     "splash": {
       "image": "./assets/opening.png",

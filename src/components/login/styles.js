@@ -10,7 +10,8 @@ export const styles = StyleSheet.create({
   },
   loginFormContainer: {
     width: 350,
-    height: 540,
+    height: '100%',
+    justifyContent: 'center',
     borderRadius: 3,
     padding: 50,
     backgroundColor: '#ffffff',
