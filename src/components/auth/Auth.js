@@ -22,8 +22,11 @@ class Auth extends React.Component {
     }
     catch(e) {
       this.props.navigation.navigate('Login');
-      // alert('There was a problem connecting to the server :(');
     }     
+  };
+
+  componentWillUnmount() {
+    SplashScreen.hide();
   }
 
   render() {
