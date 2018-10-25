@@ -27,6 +27,11 @@
     },
     "android": {
       "package": "com.mixdo.mixdo"
+    },
+    "notification": {
+      "icon": "./assets/pushicon.png",
+      "color": "#ffffff",
+      "androidMode": "default"
     }
   }
 }

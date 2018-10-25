@@ -16,15 +16,7 @@ export const styles = StyleSheet.create({
     padding: 50,
     paddingTop: 38,
     backgroundColor: '#ffffff',
-    // borderWidth: 1,
     borderColor: '#eaeaea',
-    // shadowColor: '#000000',
-    //   shadowOffset: {
-    //     width: 0,
-    //     height: 3
-    //   },
-    //   shadowRadius: 5,
-    //   shadowOpacity: 0.1
   },
   logoContainer: {
     alignItems: 'center'

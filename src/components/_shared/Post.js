@@ -173,20 +173,21 @@ class Post extends React.Component {
   renderPost = () => {
     if(this.props.todo.item.image) {
       return (
-        <View style={ [styles.mainContainer2, { paddingTop: !this.props.todo.item.following && this.props.discover ? 4 : 10,} ] }>
+        <View style={ [styles.mainContainer2, { paddingTop: 10 } ] }>
           <View style={{ position: 'absolute', top: 1, flexDirection: 'row', width: '100%', paddingTop: 5, justifyContent: 'flex-end', paddingRight: 5, zIndex: 50 }}>
-            <TouchableOpacity onPress={() => this.props.showFlag(this.props.todo.item._id)}  >
+            {this.renderFollow()}
+            {this.renderFollowing()} 
+           <TouchableOpacity onPress={() => this.props.showFlag(this.props.todo.item._id)}  >
               <Options name="dots-three-vertical" size={20} color="lightgray"  />
             </TouchableOpacity>
           </View>
         <View style={{ alignItems: 'flex-end', marginRight: 0 }}>
-          {this.renderFollow()}
-          {this.renderFollowing()}
+          
           
         </View>
         <View>
           <View style={{ paddingLeft: 10, paddingRight: 10 }}>
-            <View style={[styles.topContent, { bottom: !this.props.todo.item.following && this.props.discover ? 5 : 0 } ]}>
+            <View style={[styles.topContent, { bottom: 0 } ]}>
               <View style={styles.imageContainer}>
                 {this.renderProfileImage()}
               </View>
@@ -235,17 +236,18 @@ class Post extends React.Component {
     return (
       <View>
         <View style={{ position: 'absolute', top: 1, flexDirection: 'row', width: '100%', paddingTop: 5, paddingRight: 5, justifyContent: 'flex-end', zIndex: 50 }}>
+          {this.renderFollow()}
+          {this.renderFollowing()}
           <TouchableOpacity onPress={() => this.props.showFlag(this.props.todo.item._id)}  >
             <Options name="dots-three-vertical" size={20} color="lightgray"  />
           </TouchableOpacity>
         </View>
-      <View style={[this.props.todo.item.finished ? styles.mainContainerFinished : styles.mainContainer, { paddingTop: !this.props.todo.item.following && this.props.discover ? 4 : 10, }]}>
+      <View style={[this.props.todo.item.finished ? styles.mainContainerFinished : styles.mainContainer, { paddingTop: 10, }]}>
         <View style={{ alignItems: 'flex-end', paddingLeft: 10 }}>
-          {this.renderFollow()}
-          {this.renderFollowing()}
+          
         </View>
         <View >
-          <View style={[styles.topContent, { bottom: !this.props.todo.item.following && this.props.discover ? 5 : 0 } ]}>
+          <View style={[styles.topContent, { bottom: 0 } ]}>
             <View style={styles.imageContainer}>
               {this.renderProfileImage()}
             </View>
@@ -300,7 +302,7 @@ class Post extends React.Component {
 const styles = StyleSheet.create({
   mainContainer: {
     padding: 10,
-    // paddingTop: !this.props.todo.item.following && this.props.discover ? 3 : 10,
+    paddingTop: 10,
     paddingBottom: 7,
     backgroundColor: '#ffffff',
     borderWidth: 1,
@@ -309,7 +311,7 @@ const styles = StyleSheet.create({
   },
   mainContainer2: {
     paddingTop: 10,
-    // paddingTop: !this.props.todo.item.following && this.props.discover ? 3 : 10,
+    
     paddingBottom: 7,
     backgroundColor: '#ffffff',
     borderTopWidth: 1,
@@ -439,7 +441,7 @@ const styles = StyleSheet.create({
   followButton: {
     marginBottom: 0,
     paddingBottom: 0,
-    marginRight: 20,
+    marginRight: 15,
   },
   followedText: {
     color: Colors.secondary,

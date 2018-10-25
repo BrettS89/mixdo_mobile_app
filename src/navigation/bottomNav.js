@@ -1,8 +1,5 @@
 import React from 'react';
-import { AsyncStorage } from 'react-native';
-import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 import { createStackNavigator, createMaterialTopTabNavigator, createBottomTabNavigator, createSwitchNavigator, SwitchNavigator } from 'react-navigation';
-import { apiTest } from '../lib/api_calls';
 import Icon from 'react-native-vector-icons/Feather';
 import Icon2 from 'react-native-vector-icons/Octicons';
 import Profile from '../containers/Profile';
