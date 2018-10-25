@@ -17,7 +17,7 @@ class Welcome extends React.Component {
     photo: null,
   };
 
-  async componentWillMount() {
+  async componentDidMount() {
     SplashScreen.hide();
     await this.props.getMyProfile();
     const { fullName, photo } = this.props.state.user.payload;

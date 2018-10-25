@@ -4,6 +4,7 @@ import Colors from '../../shared/colors';
 export const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
+    backgroundColor: '#ffffff',
     padding: 30,
     paddingTop: 60,
   },

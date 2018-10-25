@@ -39,7 +39,7 @@ class MyFriends extends React.Component {
 
   render() {
     return (
-      <View>
+      <View style={{ flex: 1, backgroundColor: '#ffffff' }}>
 
         <View style={styles.optionsContainer}>
           <View>
