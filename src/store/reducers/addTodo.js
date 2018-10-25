@@ -18,6 +18,7 @@ export default function(state = {}, { type, payload }) {
     case ADD_TODO:
       return {
         ...state,
+        openModal: false,
         payload
       };
 

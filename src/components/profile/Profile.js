@@ -39,6 +39,7 @@ class Profile extends React.Component {
     cameraLoad: false,
     cameraLoad2: false,
     snap: true,
+    darkModal: false,
   };
 
   componentWillMount() {
@@ -62,7 +63,18 @@ class Profile extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ openModal: nextProps.state.todo.openModal });
+    if(nextProps.state.todo.openModal === true) {
+      setTimeout(() => {
+        this.setState({ openModal: nextProps.state.todo.openModal, });
+      }, 50)
+      this.setState({ darkModal: true });
+    }
+    if(nextProps.state.todo.openModal === false) {
+      setTimeout(() => {
+        this.setState({ darkModal: false });
+      }, 50);
+      this.setState({ openModal: nextProps.state.todo.openModal });
+    }
   }
 
   async addTodo() {
@@ -74,10 +86,16 @@ class Profile extends React.Component {
   }
 
   openFinishTodo = (todo) => {
-    this.setState({ finishTodo: true, toFinish: todo, toDelete: todo });
+    setTimeout(() => {
+      this.setState({ finishTodo: true, toFinish: todo, toDelete: todo });
+    }, 50)
+    this.setState({ darkModal: true });
   };
 
   closeFinishTodo = () => {
+    setTimeout(() => {
+      this.setState({ darkModal: false });
+    }, 50); 
     this.setState({ finishTodo: false, toFinish: '', toDelete: '', image: null });
   };
 
@@ -184,6 +202,9 @@ class Profile extends React.Component {
   };
 
   finishTodo = async () => {
+    setTimeout(() => {
+      this.setState({ darkModal: false });
+    }, 60);
     await this.setState({ loading: true, status: 'finish' });
     if(this.state.image) {
       const manipResult = await ImageManipulator.manipulate(
@@ -318,11 +339,13 @@ class Profile extends React.Component {
             onRefresh={this.getTodos}
           />
         </View>  
-
+        <Modal transparent visible={this.state.darkModal} animationType="fade" onRequestClose={() => this.props.closeModal()}>
+            <View style={styles.modalContainerii}></View>
         <Modal
             transparent
             visible={this.state.openModal === true}
             onRequestClose={() => this.props.closeModal()}
+            animationType="slide"
           >
           <View style={styles.modalContainer}>
             <View style={styles.modalSubContainer}>
@@ -347,6 +370,7 @@ class Profile extends React.Component {
             transparent
             visible={this.state.finishTodo === true}
             onRequestClose={() => this.setState({ finishTodo: false })}
+            animationType="slide"
           >
           <View style={styles.modalContainer}>
             <View style={styles.modalSubContainer2}>
@@ -377,8 +401,9 @@ class Profile extends React.Component {
               transparent
               visible={this.state.photoOptions}
               onRequestClose={() => this.setState({ photoOptions: false })}
+              animationType="fade"
             >
-            <View style={styles.modalContainer}>
+            <View style={styles.modalContainerii}>
               <View style={styles.modalSubContainer3}>
                 <View style={{ width: 145, height: 200, justifyContent: 'center' }}>
                   <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }} onPress={() => this.uploadImage()}>
@@ -421,6 +446,7 @@ class Profile extends React.Component {
               </View>
             </Modal>
           </Modal> 
+        </Modal>
         </Modal>
       </View> 
     );
