@@ -24,7 +24,7 @@ const authNav = createBottomTabNavigator({
   Auth: { screen: Auth },
   Login: { screen: Login },
   Signup: { screen: Signup },
-  Welcome: { screen: Welcome },
+  
   TC: { screen: TC },
 }, {
   initialRouteName: 'Login',
@@ -36,6 +36,8 @@ const authNav = createBottomTabNavigator({
 });
 
 export const RootNav3 = createBottomTabNavigator({
+  Welcome: { screen: Welcome },
+  
   Settings: { screen: createStackNavigator({
     myProfile: { screen: Settings, navigationOptions: () => ({
       headerLeft: <Logo />,
