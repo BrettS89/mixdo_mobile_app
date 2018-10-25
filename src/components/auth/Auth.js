@@ -7,6 +7,7 @@ import { apiTest } from '../../lib/api_calls';
 class Auth extends React.Component {
   constructor(props) {
     super(props);
+    SplashScreen.preventAutoHide();
     this.bootstrapApp();
   }
 
@@ -23,6 +24,10 @@ class Auth extends React.Component {
       this.props.navigation.navigate('Login');
     }     
   };
+
+  componentWillUnmount() {
+    SplashScreen.hide();
+  }
 
   render() {
     return (

@@ -97,7 +97,7 @@ class FindUsers extends React.Component {
         <FlatList 
           data={this.state.users}
           onEndReached={this.handleEnd}
-          onEndReachedThreshold={2}
+          onEndReachedThreshold={5}
           renderItem={(user) => (
             <FindUserCard user={user.item} getFollowers={this.getFollowers} navigateToProfile={this.navigateToProfile}/>
           )}

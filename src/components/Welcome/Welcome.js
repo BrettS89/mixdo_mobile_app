@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { Buffer } from 'buffer';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
-import { ImagePicker, Permissions, ImageManipulator, SplashScreen } from 'expo';
+import { ImagePicker, Permissions, ImageManipulator } from 'expo';
 import { styles } from './styles';
 import { apiUploadProfilePhoto } from '../../lib/api_calls';
 import pushNotifications from '../../services/pushNotifications';
@@ -18,7 +18,6 @@ class Welcome extends React.Component {
   };
 
   async componentDidMount() {
-    SplashScreen.hide();
     await this.props.getMyProfile();
     const { fullName, photo } = this.props.state.user.payload;
     this.setState({ fullName, photo });
