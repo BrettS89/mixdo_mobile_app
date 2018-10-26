@@ -68,8 +68,10 @@ class Welcome extends React.Component {
   pressFinish = () => {
     // await pushNotifications();
     pushNotifications().then(() => {
+      console.log('1');
       this.props.navigation.navigate('FindTodos');
-    }).catch(() => {
+    }).catch((e) => {
+      console.log(e);
       this.props.navigation.navigate('FindTodos');
     }); 
   };

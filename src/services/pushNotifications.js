@@ -15,14 +15,17 @@ import { apiSavePushToken } from '../lib/api_calls';
 
 export default function() {
   return Permissions.askAsync(Permissions.NOTIFICATIONS).then(({ status }) => {
+    console.log('1', status);
     if(status === 'granted') {
       Notifications.getExpoPushTokenAsync().then((token) => {
+        console.log('2', token);
         apiSavePushToken({ token }).then(() => {
-          return;
+          console.log('3');
+          return 'won';
         });
       });  
     }
-    return;
+    return 'lost?';
   }).catch(() => {
     return;
   });

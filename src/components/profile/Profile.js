@@ -66,13 +66,13 @@ class Profile extends React.Component {
     if(nextProps.state.todo.openModal === true) {
       setTimeout(() => {
         this.setState({ openModal: nextProps.state.todo.openModal, });
-      }, 50)
+      }, 80)
       this.setState({ darkModal: true });
     }
     if(nextProps.state.todo.openModal === false) {
       setTimeout(() => {
         this.setState({ darkModal: false });
-      }, 50);
+      }, 80);
       this.setState({ openModal: nextProps.state.todo.openModal });
     }
   }
@@ -88,14 +88,14 @@ class Profile extends React.Component {
   openFinishTodo = (todo) => {
     setTimeout(() => {
       this.setState({ finishTodo: true, toFinish: todo, toDelete: todo });
-    }, 50)
+    }, 80)
     this.setState({ darkModal: true });
   };
 
   closeFinishTodo = () => {
     setTimeout(() => {
       this.setState({ darkModal: false });
-    }, 50); 
+    }, 80); 
     this.setState({ finishTodo: false, toFinish: '', toDelete: '', image: null });
   };
 
@@ -352,7 +352,7 @@ class Profile extends React.Component {
               <Text style={styles.modalHeader}>Add a Todo</Text>
 
               <Input2 labelText="Todo" placeholder="Do cool stuff" onChangeText={description => this.onKeyPress(description)} onKeyPress={press => this.onKeyPress2(press)}/>
-              <Input2 labelText="Description" placeholder="#CoolStuff #Winning"  onChangeText={metaData => this.setState({ metaData })} />
+              <Input2 labelText="Tags" placeholder="#fitness, #business, #hustle, etc."  onChangeText={metaData => this.setState({ metaData })} />
 
               <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 20 }}>
                 <View style={{width: 100, marginRight: 15 }}>
