@@ -65,10 +65,14 @@ class Welcome extends React.Component {
     }
   };
 
-  pressFinish = async () => {
-    await pushNotifications();
-    this.props.navigation.navigate('FindTodos');
-  }
+  pressFinish = () => {
+    // await pushNotifications();
+    pushNotifications().then(() => {
+      this.props.navigation.navigate('FindTodos');
+    }).catch(() => {
+      this.props.navigation.navigate('FindTodos');
+    }); 
+  };
 
   displayAddImageText = () => {
     if(this.state.photo) {

@@ -14,7 +14,7 @@ class Todo extends React.Component {
         <Check name="check-circle" size={27} style={styles.icon} color={this.state.iconColor}/>
       );
     }
-    return <Circle name="flag" size={27} style={styles.icon} color={Colors.main}/>;
+    return <Circle name="flag" size={24} style={styles.icon} color={Colors.main}/>;
   };
 
   renderTodo = () => {
