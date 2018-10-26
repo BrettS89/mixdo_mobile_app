@@ -72,6 +72,7 @@ class FindTodos extends React.Component{
   };
 
   handleEnd = async () => {
+    console.log('Discover end');
     if(this.state.todos.length > 0 && this.state.search.length === 0) {
     const lastTodo = this.state.todos.length - 1;
     const lastTodoDate = this.state.todos[lastTodo].date;

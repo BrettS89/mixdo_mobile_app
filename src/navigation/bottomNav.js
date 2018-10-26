@@ -131,11 +131,15 @@ main: {
 
     Users: {
       screen: createMaterialTopTabNavigator({
-        FindUsers: { screen: FindUsers },
-        MyFriends: { screen: MyFriends }
+        FindUsers: { screen: FindUsers, navigationOptions: { title: 'Find users' } },
+        MyFriends: { screen: MyFriends, navigationOptions: { title: 'Following' } }
       }, {
         tabBarOptions: {
+          indicatorStyle: {
+            backgroundColor: Colors.yellow,
+          },
           style: {
+            fontSize: 18,
             elevation: 0,
             backgroundColor: Colors.main,
             height: 75,

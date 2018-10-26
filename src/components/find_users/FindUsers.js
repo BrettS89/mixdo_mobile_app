@@ -69,6 +69,7 @@ class FindUsers extends React.Component {
     const lastUser = this.state.users.length - 1;
     const lastUserDate = this.state.users[lastUser].date;
     await this.props.findUsersInfinite({ date: lastUserDate });
+    console.log(this.props.infiniteUsers);
     let infinityPayload = [];
     if(this.props.infiniteUsers.payload.length > 0 ) {
       infinityPayload = this.props.infiniteUsers.payload;
@@ -97,7 +98,7 @@ class FindUsers extends React.Component {
         <FlatList 
           data={this.state.users}
           onEndReached={this.handleEnd}
-          onEndReachedThreshold={5}
+          onEndReachedThreshold={1}
           renderItem={(user) => (
             <FindUserCard user={user.item} getFollowers={this.getFollowers} navigateToProfile={this.navigateToProfile}/>
           )}

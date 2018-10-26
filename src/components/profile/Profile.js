@@ -204,7 +204,7 @@ class Profile extends React.Component {
   finishTodo = async () => {
     setTimeout(() => {
       this.setState({ darkModal: false });
-    }, 60);
+    }, 100);
     await this.setState({ loading: true, status: 'finish' });
     if(this.state.image) {
       const manipResult = await ImageManipulator.manipulate(

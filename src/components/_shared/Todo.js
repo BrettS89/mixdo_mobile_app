@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Check from 'react-native-vector-icons/FontAwesome';
+import Circle from 'react-native-vector-icons/Foundation';
 import Colors from '../../shared/colors';
 
 class Todo extends React.Component {
@@ -13,7 +14,7 @@ class Todo extends React.Component {
         <Check name="check-circle" size={27} style={styles.icon} color={this.state.iconColor}/>
       );
     }
-    return <Icon name="target" size={27} style={styles.icon} color={Colors.third}/>;
+    return <Circle name="flag" size={27} style={styles.icon} color={Colors.main}/>;
   };
 
   renderTodo = () => {

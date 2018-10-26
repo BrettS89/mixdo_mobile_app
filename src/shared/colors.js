@@ -6,5 +6,5 @@ export default {
   footer: '#ffffff',
   logo: '#45474C',
   white: '#ffffff',
-  purple: '#630cd6',
+  yellow: '#FBEBBF',
 };

@@ -4,7 +4,8 @@ import Colors from '../../shared/colors';
 export const styles = StyleSheet.create({
   containerStyle: {
     flex: 1,
-    backgroundColor: '#FBFBFB'
+    backgroundColor: '#FBFBFB',
+    // backgroundColor: '#ffffff'
   },
   optionsContainer: {
     flexDirection: 'row',

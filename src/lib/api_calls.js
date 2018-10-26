@@ -157,9 +157,10 @@ export async function apiFindFriendsInfinite(body) {
   try {
     const config = await getToken();
     const { data } = await axios.get(`${URI}/users/find/${body.date}`, config);
-    return data;
+    return data.res;
   }
   catch(e) {
+    console.log(e);
     return 'error';
   }
 }
