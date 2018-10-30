@@ -26,7 +26,8 @@
       "bundleIdentifier": "com.mixdo.mixdo"
     },
     "android": {
-      "package": "com.mixdo.mixdo"
+      "package": "com.mixdo.mixdo",
+      "googleServicesFile": "./google-services.json"
     },
     "notification": {
       "icon": "./assets/pushicon.png",

@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1013526858447",
+    "firebase_url": "https://mixdo-6990c.firebaseio.com",
+    "project_id": "mixdo-6990c",
+    "storage_bucket": "mixdo-6990c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1013526858447:android:43950584784b46b9",
+        "android_client_info": {
+          "package_name": "com.mixdo.mixdo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1013526858447-cbjlt3j2ugpcgapa908ilg7fi276ofpd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARUH-CFi20f8A8_lRiw9vVV6TeKQXpLws"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -279,6 +279,9 @@ class Profile extends React.Component {
         const newTodos = this.state.todos.filter(todo => {
           return todo._id !== this.state.toDelete;
         });
+        setTimeout(() => {
+          this.setState({ darkModal: false });
+        }, 80);
         this.setState({ todos: newTodos, finishTodo: false });   
       }
     }
