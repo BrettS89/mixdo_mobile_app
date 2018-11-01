@@ -2,7 +2,7 @@ import React from 'react';
 import { TextInput, View, Text, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const Input = ({ labelText, value, onChangeText, placeholder, secureTextEntry, onSubmitHandler }) => {
+const Input = ({ labelText, value, onChangeText, placeholder, secureTextEntry, onSubmitHandler, email }) => {
 
   const displayIcon = () => {
     if(labelText === 'email') {
@@ -29,6 +29,7 @@ const Input = ({ labelText, value, onChangeText, placeholder, secureTextEntry, o
         secureTextEntry={secureTextEntry}
         style={textInput}
         value={value}
+        keyboardType={email ? 'email-address' : 'default'}
         onChangeText={onChangeText}
         autoCorrect={false}
         placeholder={placeholder}

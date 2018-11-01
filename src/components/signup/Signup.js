@@ -9,8 +9,18 @@ import pushNotifications from '../../services/pushNotifications';
 class Signup extends React.Component {
   state = { error: false };
 
+  validateEmail = (email) => {
+    const re = /[^\s@]+@[^\s@]+\.[^\s@]+/;
+    return re.test(email)
+  };
+
   async onSignup(firstName, lastName, email, password) {
     this.setState({ error: false });
+    const validEmail = this.validateEmail(email);
+    if(validEmail === false) {
+      this.setState({ error: true });
+      return;
+    }
     const deviceName = Expo.Constants.deviceName;
     await this.props.signup({ firstName, lastName, email, password, deviceName });
     if(this.props.state.signup.payload ===  'Error') {

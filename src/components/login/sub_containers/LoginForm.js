@@ -70,6 +70,7 @@ class LoginForm extends React.Component {
           <View>
             <Input 
               labelText="email"
+              email={true}
               placeholder="Email"
               onChangeText={email => this.setState({ email, email2: email })}
               onSubmitHandler={this.onButtonPress}

@@ -60,7 +60,7 @@ class Login extends React.Component {
   };
 
   tc = () => {
-    this.props.navigation.navigate('TC');
+    this.props.navigation.navigate('Legal');
   }
 
   render() {

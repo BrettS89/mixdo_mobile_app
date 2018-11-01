@@ -18,14 +18,18 @@ import UserProfile from '../containers/UserProfile';
 import Welcome from '../containers/Welcome';
 import TC from '../containers/TC';
 import Auth from '../containers/Auth';
+import Legal from '../containers/Legal';
+import PrivacyPolicy from '../containers/PrivacyPolicy';
 import Colors from '../shared/colors';
+
 
 const authNav = createBottomTabNavigator({
   Auth: { screen: Auth },
   Login: { screen: Login },
   Signup: { screen: Signup },
-  
+  Legal: { screen: Legal },
   TC: { screen: TC },
+  PrivacyPolicy: { screen: PrivacyPolicy },
 }, {
   initialRouteName: 'Login',
   tabBarOptions: {

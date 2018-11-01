@@ -26,7 +26,6 @@ export const styles = StyleSheet.create({
   },
   bodyContainer: {
     marginTop: 10,
-    marginBottom: 10,
   },
   segment: {
     marginBottom: 15,

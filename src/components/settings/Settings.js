@@ -109,8 +109,14 @@ class Settings extends React.Component {
               </View>
               <View style={styles.contactRow}>
                 <Text style={{ fontWeight: '600' }}>Contact us</Text>
-                <Text>support@mixdo.com</Text>
+                <Text>info@mixdo.com</Text>
               </View>
+              <TouchableOpacity style={styles.contactRow} onPress={() => this.props.navigation.navigate('TC')}>
+                <Text style={{ fontWeight: '600', color: Colors.main }}>Terms and conditions</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.contactRow} onPress={() => this.props.navigation.navigate('PrivacyPolicy')}>
+                <Text style={{ fontWeight: '600', color: Colors.main }}>Privacy Policy</Text>
+              </TouchableOpacity>
               <TouchableOpacity onPress={() => this.onLogout()}>
                 <Text style={{ fontWeight: '600', color: Colors.main }}>Log out</Text>
               </TouchableOpacity>  

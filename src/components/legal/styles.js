@@ -13,6 +13,7 @@ export const styles = StyleSheet.create({
   backButtonText: {
     color: Colors.main,
     fontSize: 12,
+    marginBottom: 20,
   },
   header: {
     alignItems: 'center',
@@ -26,13 +27,12 @@ export const styles = StyleSheet.create({
   },
   bodyContainer: {
     marginTop: 10,
-    marginBottom: 10,
   },
-  segment: {
+  legalButton: {
     marginBottom: 15,
   },
-  subHeader: {
-    fontWeight: '700',
-    marginBottom: 15,
+  legalText: {
+    color: Colors.main,
+    fontWeight: '600',
   }
 });
