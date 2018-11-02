@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text, FlatList, Keyboard, Modal, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, Keyboard, Modal, TouchableOpacity, AsyncStorage } from 'react-native';
 import { styles } from './styles';
+import { apiDeleteTodo } from '../../lib/api_calls';
 import Post from '../_shared/Post';
 import { Input3 } from '../_shared';
 
@@ -11,11 +12,15 @@ class FindTodos extends React.Component{
     refreshing: false,
     showFlag: false,
     toFlag: '',
+    toFlagUser: '',
+    _id: '',
     results: true,
   };
 
-  componentWillMount() {
+  async componentWillMount() {
     this.getTodos();
+    const _id = await AsyncStorage.getItem('_id');
+    this.setState({ _id });
   }
 
   getTodos = async () => {
@@ -85,8 +90,19 @@ class FindTodos extends React.Component{
   }
 };
 
-  showFlagModal = (todo) => {
-    this.setState({ showFlag: true, toFlag: todo });
+  showFlagModal = (todo, user) => {
+    this.setState({ showFlag: true, toFlag: todo, toFlagUser: user });
+  };
+
+  displayDeleteTodo = () => {
+    if(this.state._id === this.state.toFlagUser) {
+      return (
+        <TouchableOpacity style={styles.deleteTodo} onPress={() => this.deleteTodo()}>
+          <Text style={styles.deleteTodoText}>Delete Todo</Text>
+        </TouchableOpacity> 
+      );
+    }
+    return;
   };
 
   flagTodo = async () => {
@@ -97,7 +113,22 @@ class FindTodos extends React.Component{
     } else {
       alert('an error occured');
     }
-    this.setState({ showFlag: false, toFlag: '' });
+    this.setState({ showFlag: false, toFlag: '', toFlagUser: '' });
+  };
+
+  deleteTodo = async () => {
+    try {
+      const deleted = await apiDeleteTodo({ id: this.state.toFlag });
+      if (deleted.deleted === true) {
+        this.setState({ toFlag: '', showFlag: false, toFlagUser: '' });
+        await this.getTodos();
+        return;
+      }
+      alert('Could not delete this todo');
+    }
+    catch(e) {
+      alert('Could not delete this todo'); 
+    }
   };
 
   render() {
@@ -142,7 +173,8 @@ class FindTodos extends React.Component{
               <TouchableOpacity style={styles.flagContent} onPress={() => this.flagTodo()}>
                 <Text style={styles.flagContentText}>Flag content</Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => this.setState({ showFlag: false })}>
+              {this.displayDeleteTodo()}
+              <TouchableOpacity onPress={() => this.setState({ showFlag: false, toFlag: '', toFlagUser: '' })}>
                 <Text style={styles.cancelText}>Cancel</Text>
               </TouchableOpacity>
             </View>

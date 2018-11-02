@@ -22,9 +22,11 @@ async function getToken() {
 export async function apiTest() {
   try {
     const config = await getToken();
-    await axios.get(`${URI}/connection`, config);
+    const { data } = await axios.get(`${URI}/connection`, config);
+    await AsyncStorage.setItem('_id', data._id);
   }
   catch(e) {
+    console.log(e);
     throw(e);
   }
 }
@@ -33,6 +35,7 @@ export async function apiTest() {
 export async function userSignup(body) {
   try {
     const { data } = await axios.post(`${URI}/auth/signup`, body);
+    await AsyncStorage.setItem('_id', data._id);
     return data;
   }
   catch(e) {
@@ -57,6 +60,7 @@ export async function apiSavePushToken(body) {
 export async function userLogin(body) {
   try {
     const { data } = await axios.post(`${URI}/auth/login`, body);
+    await AsyncStorage.setItem('_id', data._id);
     return data;
   }
   catch(e) {

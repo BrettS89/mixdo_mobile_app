@@ -36,11 +36,18 @@ export const styles = StyleSheet.create({
     borderRadius: 6
   },
   flagContent: {
-    marginBottom: 25,
+    marginBottom: 15,
   },
   flagContentText: {
     color: Colors.main,
     fontWeight: '600',
+  },
+  deleteTodo: {
+    marginBottom: 15,
+  },
+  deleteTodoText: {
+    fontWeight: '600',
+    color: '#FE4C4B',
   },
   cancelText: {
     color: 'gray',

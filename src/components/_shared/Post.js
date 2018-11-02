@@ -177,7 +177,7 @@ class Post extends React.Component {
           <View style={{ position: 'absolute', top: 1, flexDirection: 'row', width: '100%', paddingTop: 5, justifyContent: 'flex-end', paddingRight: 5, zIndex: 50 }}>
             {this.renderFollow()}
             {this.renderFollowing()} 
-           <TouchableOpacity onPress={() => this.props.showFlag(this.props.todo.item._id)}  >
+           <TouchableOpacity onPress={() => this.props.showFlag(this.props.todo.item._id, this.props.todo.item.user._id)}  >
               <Options name="dots-three-vertical" size={20} color="lightgray"  />
             </TouchableOpacity>
           </View>
@@ -238,7 +238,7 @@ class Post extends React.Component {
         <View style={{ position: 'absolute', top: 1, flexDirection: 'row', width: '100%', paddingTop: 5, paddingRight: 5, justifyContent: 'flex-end', zIndex: 50 }}>
           {this.renderFollow()}
           {this.renderFollowing()}
-          <TouchableOpacity onPress={() => this.props.showFlag(this.props.todo.item._id)}  >
+          <TouchableOpacity onPress={() => this.props.showFlag(this.props.todo.item._id, this.props.todo.item.user._id)}  >
             <Options name="dots-three-vertical" size={20} color="lightgray"  />
           </TouchableOpacity>
         </View>
