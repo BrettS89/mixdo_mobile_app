@@ -36,6 +36,13 @@ class FindTodos extends React.Component{
     });
   };
 
+  navigateToComments = async post => {
+    //get post comments
+    this.props.navigation.navigate('Comments', {
+      comments: ['placholder'],
+    });
+  };
+
   onSearchType = async (search) => {
     await this.setState({ search });
     if(!this.state.search) {
@@ -147,7 +154,8 @@ class FindTodos extends React.Component{
           renderItem={(todo) => (
             <Post 
               todo={todo} 
-              navigateToProfile={this.navigateToProfile} 
+              navigateToProfile={this.navigateToProfile}
+              navigateToComments={this.navigateToComments}
               likeTodo={this.likeTodo} addUserTodo={this.addUserTodo} 
               discover 
               getFollowers={this.getFollowers} 

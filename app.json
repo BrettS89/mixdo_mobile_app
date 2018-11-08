@@ -1,12 +1,12 @@
 {
   "expo": {
-    "name": "mixdo",
+    "name": "Mixdo",
     "description": "This project is really great.",
     "slug": "mixdoprod",
     "privacy": "public",
     "sdkVersion": "30.0.0",
     "platforms": ["ios", "android"],
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/mixdoicon.png",
     "facebookScheme": "fb736979746693999",
@@ -27,6 +27,7 @@
     },
     "android": {
       "package": "com.mixdo.mixdo",
+      "versionCode": 2,
       "googleServicesFile": "./google-services.json"
     },
     "notification": {

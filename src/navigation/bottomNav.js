@@ -20,6 +20,7 @@ import TC from '../containers/TC';
 import Auth from '../containers/Auth';
 import Legal from '../containers/Legal';
 import PrivacyPolicy from '../containers/PrivacyPolicy';
+import Comments from '../containers/Comments';
 import Colors from '../shared/colors';
 
 
@@ -41,6 +42,19 @@ const authNav = createBottomTabNavigator({
 
 export const RootNav3 = createBottomTabNavigator({
   Welcome: { screen: Welcome },
+
+  Comments: { screen: createStackNavigator({
+    comments: { screen: Comments, navigationOptions: ({ navigation }) => ({
+      headerLeft: <Icon name="chevron-left" size={38} color="#ffffff" onPress={() => navigation.goBack(null)} />,
+      headerRight: <MenuIcon/>,
+      headerStyle: {
+        elevation: 0,
+        backgroundColor: Colors.main,
+        }
+      }) 
+    }
+  }) 
+},
   
   Settings: { screen: createStackNavigator({
     myProfile: { screen: Settings, navigationOptions: () => ({

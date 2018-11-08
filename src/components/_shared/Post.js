@@ -26,6 +26,10 @@ class Post extends React.Component {
   }
 
   renderProfileImage = () => {
+    if(!this.props.todo.item.user) {
+      this.props.navigateToLogin();
+      return;
+    }
     if(this.props.todo.item.user.photo) {
       return <Image style={styles.profileImage} resizeMode="cover" source={{ uri: this.props.todo.item.user.photo }}/>
     }
@@ -69,6 +73,10 @@ class Post extends React.Component {
 
   viewProfile = () => {
     this.props.navigateToProfile(this.props.todo.item.user._id);
+  };
+
+  navigateToComments = () => {
+    this.props.navigateToComments(this.props.todo.item._id);
   };
 
   likeTodo = async () => {
@@ -223,10 +231,10 @@ class Post extends React.Component {
 
             {this.renderAdded()}
 
-            {/* <View style={styles.action}>
+            <TouchableOpacity style={styles.action} onPress={() => this.navigateToComments()}>
               <Comment name="comment-o" color="#ababab" size={20} style={{ marginBottom: 1 }} />
               <Text style={styles.actionsText}>Comment</Text>
-            </View> */}
+            </TouchableOpacity>
 
           </View>
         </View>
@@ -278,10 +286,10 @@ class Post extends React.Component {
 
             {this.renderAdded()}
 
-            {/* <View style={styles.action}>
+            <TouchableOpacity style={styles.action} onPress={() => this.navigateToComments()}>
               <Comment name="comment-o" color="#ababab" size={20} style={{ marginBottom: 1 }} />
               <Text style={styles.actionsText}>Comment</Text>
-            </View> */}
+            </TouchableOpacity>
 
           </View>
         </View>
@@ -373,7 +381,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    width: '55%'
+    width: '80%'
   },
   action: {
     justifyContent: 'center',

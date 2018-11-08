@@ -28,14 +28,31 @@ class Feed extends React.Component {
   getTodos = async () => {
     await this.setState({ todos: [], refreshing: true });
     await this.props.getTodos();
+    console.log(this.props.todos.payload);
+    if(this.props.todos.payload === 'error') {
+      await AsyncStorage.clear();
+      return this.props.navigation.navigate('Login');
+    }
     await this.setState({ todos: [...this.props.todos.payload], refreshing: false });
   };
 
   navigateToProfile = async (id) => {
     await this.props.getUserProfile(id);
     this.props.navigation.navigate('userProfile', {
-      _id: id
+      _id: id,
     });
+  };
+
+  navigateToComments = async post => {
+    //get post comments
+    this.props.navigation.navigate('Comments', {
+      comments: ['placholder'],
+    });
+  };
+
+  navigateToLogin = async () => {
+    await AsyncStorage.clear();
+    this.props.navigation.navigate('Login');
   };
 
   likeTodo = (todo) => {
@@ -127,7 +144,14 @@ class Feed extends React.Component {
           onEndReachedThreshold={1}
           showsVerticalScrollIndicator={false}
           renderItem={(todo) => (
-            <Post todo={todo} navigateToProfile={this.navigateToProfile} likeTodo={this.likeTodo} addUserTodo={this.addUserTodo} showFlag={this.showFlagModal} />
+            <Post 
+              todo={todo} 
+              navigateToProfile={this.navigateToProfile}
+              navigateToComments={this.navigateToComments}
+              navigateToLogin={this.navigateToLogin} 
+              likeTodo={this.likeTodo} 
+              addUserTodo={this.addUserTodo} 
+              showFlag={this.showFlagModal} />
           )}
           refreshing={this.state.refreshing}
           onRefresh={this.getTodos}

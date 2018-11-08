@@ -8,7 +8,8 @@ export const styles = StyleSheet.create({
     backgroundColor: '#ffffff'
   },
   backText: {
-    color: Colors.main
+    color: Colors.main,
+    fontSize: 14,
   },
   subContainer: {
     paddingLeft: 35,

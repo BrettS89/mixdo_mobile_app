@@ -80,7 +80,7 @@ class Profile extends React.Component {
   async addTodo() {
     this.setState({ loading: true, status: 'add' });
     const { description, metaData } = this.state;
-    await this.props.addTodo({ description, metaData });
+    await this.props.addTodo({ description, metaData, createdDate: new Date(Date.now()).toString() });
     this.props.closeModal();
     this.setState({ todos: [...this.state.todos, this.props.state.todo.payload], status: '', description: '', metaData: '', loading: false });
   }
@@ -225,7 +225,7 @@ class Profile extends React.Component {
       });
     }
 
-    await this.props.finishTodo({ id: this.state.toFinish, image: this.state.image ? `https://s3.amazonaws.com/${this.props.state.awsUrl.bucket}/${this.props.state.awsUrl.key}` : null });
+    await this.props.finishTodo({ id: this.state.toFinish, image: this.state.image ? `https://s3.amazonaws.com/${this.props.state.awsUrl.bucket}/${this.props.state.awsUrl.key}` : null, createdDate: new Date(Date.now()).toString() });
     this.setState({ finishTodo: false, finished: [...this.state.finished, this.state.toFinish] , toFinish: '', image: null, loading: false, status: '' });
   };
 
