@@ -87,9 +87,6 @@ class Settings extends React.Component {
       <View style={styles.mainConainer}>
           
         <View style={styles.subContainer}>
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('Activity')}>
-          <Text style={styles.backText}>Back</Text>
-        </TouchableOpacity>
 
           <View style={styles.photoContainer}>
             {this.renderProfileImage()}

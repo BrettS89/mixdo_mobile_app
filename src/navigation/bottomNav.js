@@ -57,8 +57,8 @@ export const RootNav3 = createBottomTabNavigator({
 },
   
   Settings: { screen: createStackNavigator({
-    myProfile: { screen: Settings, navigationOptions: () => ({
-      headerLeft: <Logo />,
+    myProfile: { screen: Settings, navigationOptions: ({ navigation }) => ({
+      headerLeft: <Icon name="chevron-left" size={38} color="#ffffff" onPress={() => navigation.goBack(null)} />,
       headerRight: <MenuIcon/>,
       headerStyle: {
         elevation: 0,
@@ -70,8 +70,8 @@ export const RootNav3 = createBottomTabNavigator({
 },
 
   UserProfile: { screen: createStackNavigator({
-    userProfile: { screen: UserProfile, navigationOptions: () => ({
-      headerLeft: <Logo />,
+    userProfile: { screen: UserProfile, navigationOptions: ({ navigation }) => ({
+      headerLeft: <Icon name="chevron-left" size={38} color="#ffffff" onPress={() => navigation.goBack(null)} />,
       headerRight: <MenuIcon/>,
       headerStyle: {
         elevation: 0,
