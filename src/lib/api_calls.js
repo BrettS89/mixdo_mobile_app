@@ -109,14 +109,6 @@ export async function apiDeleteTodo(body) {
 export async function getOnePersonTodos() {
   try {
     const config = await getToken();
-
-
-  //   const data = await fetch(`${URI}/todos/user`, {
-  //     method: "GET",
-  //     headers: config,
-  // });
-  // console.log(data);
-
     const { data } = await axios.get(`${URI}/todos/user`, config);
     await AsyncStorage.setItem('token', data.token);
     return data.res;
@@ -327,6 +319,34 @@ export async function apiLikeTodo(body) {
     return data.res;
   }
   catch(e) {
+    return 'error';
+  }
+}
+
+//Add a comment
+export async function apiAddComment(body) {
+  try {
+    const config = await getToken();
+    const { data } = await axios.post(`${URI}/todos/addcomment`, body, config);
+    await AsyncStorage.setItem('token', data.token);
+    return data.res;
+  }
+  catch(e) {
+    console.log(e);
+    return 'error';
+  }
+}
+
+//Get Comments
+export async function apiGetComments(id) {
+  try {
+    const config = await getToken();
+    const { data } = await axios.get(`${URI}/todos/getcomments/${id}`, config);
+    await AsyncStorage.setItem('token', data.token);
+    return data.res;
+  }
+  catch(e) {
+    console.log(e);
     return 'error';
   }
 }

@@ -5,6 +5,7 @@ import { getUserProfile } from '../store/actions/getUserProfile';
 import { likeTodo } from '../store/actions/likeTodo';
 import { addUserTodo } from '../store/actions/addUserTodo';
 import { flagTodo } from '../store/actions/flagTodo';
+import { getComments } from '../store/actions/comments';
 import Feed from '../components/feed/Feed';
 
 function mapStateToProps({ todos, infinityTodos, likeTodo, addUserTodo, flagTodo }) {
@@ -17,4 +18,4 @@ function mapStateToProps({ todos, infinityTodos, likeTodo, addUserTodo, flagTodo
   };
 }
 
-export default connect(mapStateToProps, { getTodos, infinityTodos, getUserProfile, likeTodo, addUserTodo, flagTodo })(Feed);
+export default connect(mapStateToProps, { getTodos, infinityTodos, getUserProfile, likeTodo, addUserTodo, flagTodo, getComments })(Feed);

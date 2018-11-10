@@ -16,6 +16,9 @@ export const ADD_USER_TODO = 'ADD_USER_TODO';
 export const FINISH_TODO = 'FINISH_TODO';
 export const GET_USER_HISTORY = 'GET_USER_HISTORY';
 export const FLAG_TODO = 'FLAG_TODO';
+export const ADD_COMMENT = 'ADD_COMMENT';
+export const GET_COMMENTS = 'GET_COMMENTS';
+export const INFINITY_COMMENTS = 'INFINITY_COMMENTS';
 
 //Users
 export const FIND_USERS = 'FIND_USERS';

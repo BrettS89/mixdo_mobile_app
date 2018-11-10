@@ -18,7 +18,6 @@ class SignUpForm extends React.Component {
   };
 
   onButtonPress = async () => {
-    console.log('hi');
     this.setState({ loading: true, button: 'signup' });
     await this.props.onSignup(this.state.firstName, this.state.lastName, this.state.email, this.state.password);
     this.setState({ loading: false, firstName: '', lastName: '', email: '', password: '', button: '' });

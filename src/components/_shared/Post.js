@@ -147,6 +147,18 @@ class Post extends React.Component {
     );
   };
 
+  renderComments = () => {
+      return (
+        <TouchableOpacity style={styles.action} onPress={() => this.navigateToComments()}>
+          <Comment name="comment-o" color="#ababab" size={20} style={{ marginBottom: 1 }} />
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            {this.renderCommentCount()}
+            <Text style={styles.actionsText}>Comment</Text>
+          </View>
+        </TouchableOpacity>
+      );
+  }
+
   renderLikes = () => {
     if(this.state.likes > 0) {
       return (
@@ -154,12 +166,11 @@ class Post extends React.Component {
           
           <View style={styles.likesIcon}>
           <Text style={styles.likesCount}>{this.state.likes}</Text>
-            {/* <Like name="like" color="#ffffff" size={10} /> */}
           </View>
         </View>
       );
     }
-    return <View></View>;
+    return;
   };
 
   renderAdds = () => {
@@ -169,14 +180,28 @@ class Post extends React.Component {
           <View style={styles.addsIcon}>
             <View style={{ marginLeft: 2, marginTop: 1 }}>
             <Text style={styles.addsCount}>{this.state.adds}</Text>
-              {/* <Add name="playlist-plus" color="#ffffff" size={14} /> */}
             </View>
           </View>
         </View>
       )
     }
-    return <View></View>;
+    return;
   };
+
+  renderCommentCount = () => {
+    if(this.props.todo.item.commentCount > 0) {
+      return (
+        <View style={styles.likesCountContainer}>
+          <View style={styles.addsIcon}>
+            <View style={{ marginLeft: 2, marginTop: 1 }}>
+            <Text style={styles.addsCount}>{this.props.todo.item.commentCount}</Text>
+            </View>
+          </View>
+        </View>
+      );
+    }
+    return;
+  }
 
   renderPost = () => {
     if(this.props.todo.item.image) {
@@ -185,12 +210,11 @@ class Post extends React.Component {
           <View style={{ position: 'absolute', top: 1, flexDirection: 'row', width: '100%', paddingTop: 5, justifyContent: 'flex-end', paddingRight: 5, zIndex: 50 }}>
             {this.renderFollow()}
             {this.renderFollowing()} 
-           <TouchableOpacity onPress={() => this.props.showFlag(this.props.todo.item._id, this.props.todo.item.user._id)}  >
+            <TouchableOpacity onPress={() => this.props.showFlag(this.props.todo.item._id, this.props.todo.item.user._id)}  >
               <Options name="dots-three-vertical" size={20} color="lightgray"  />
             </TouchableOpacity>
           </View>
         <View style={{ alignItems: 'flex-end', marginRight: 0 }}>
-          
           
         </View>
         <View>
@@ -222,20 +246,22 @@ class Post extends React.Component {
 
         </View>
 
-        
+        {this.props.todo.item.commentCount > 0 && (
+          <TouchableOpacity style={{ width: '100%', borderBottomWidth: 1, borderBottomColor: '#ededed', marginBottom: 6 }} onPress={() => this.navigateToComments()}>
+            <View style={{ flexDirection: 'row', marginLeft: 10 }}>
+              <Text style={{ fontSize: 12, marginBottom: 5, color: Colors.main, fontWeight: '500' }}>View comments</Text>
+            </View>
+          </TouchableOpacity>
+        )}
         
         <View style={styles.actionsContainer}>
+          <View>
+
+          </View>
           <View style={styles.actionsSubContainer}>
-
             {this.renderLike()}
-
             {this.renderAdded()}
-
-            <TouchableOpacity style={styles.action} onPress={() => this.navigateToComments()}>
-              <Comment name="comment-o" color="#ababab" size={20} style={{ marginBottom: 1 }} />
-              <Text style={styles.actionsText}>Comment</Text>
-            </TouchableOpacity>
-
+            {this.renderComments()}
           </View>
         </View>
       </View>
@@ -259,7 +285,7 @@ class Post extends React.Component {
             <View style={styles.imageContainer}>
               {this.renderProfileImage()}
             </View>
-            <View> 
+            <View>
               <TouchableWithoutFeedback onPress={() => this.viewProfile()}>
                 <View>
                   {this.renderStatusText()}
@@ -278,19 +304,20 @@ class Post extends React.Component {
           </View>
 
       </View>
+
+      {this.props.todo.item.commentCount > 0 && (
+        <TouchableOpacity style={{ width: '100%', borderBottomWidth: 1, borderBottomColor: '#ededed', marginBottom: 6 }} onPress={() => this.navigateToComments()}>
+          <View style={{ flexDirection: 'row', marginLeft: 10 }}>
+            <Text style={{ fontSize: 12, marginBottom: 5, color: Colors.main, fontWeight: '500' }}>View comments</Text>
+          </View>
+        </TouchableOpacity>
+      )}
         
         <View style={styles.actionsContainer}>
           <View style={styles.actionsSubContainer}>
-
             {this.renderLike()}
-
             {this.renderAdded()}
-
-            <TouchableOpacity style={styles.action} onPress={() => this.navigateToComments()}>
-              <Comment name="comment-o" color="#ababab" size={20} style={{ marginBottom: 1 }} />
-              <Text style={styles.actionsText}>Comment</Text>
-            </TouchableOpacity>
-
+            {this.renderComments()}
           </View>
         </View>
       </View>
@@ -386,7 +413,7 @@ const styles = StyleSheet.create({
   action: {
     justifyContent: 'center',
     alignItems: 'center',
-    width: 60
+    width: 70
 
   },
   action2: {
@@ -415,18 +442,18 @@ const styles = StyleSheet.create({
   },
   likesIcon: {
     top: 1,
-    height: 13,
-    width: 13,
-    borderRadius: 15,
+    height: 14,
+    width: 14,
+    borderRadius: 7,
     backgroundColor: Colors.third,
     alignItems: 'center',
     justifyContent: 'center'
   },
   addsIcon: {
     top: 1,
-    height: 13,
-    width: 13,
-    borderRadius: 15,
+    height: 14,
+    width: 14,
+    borderRadius: 7,
     backgroundColor: Colors.secondary,
     alignItems: 'center',
     justifyContent: 'center'

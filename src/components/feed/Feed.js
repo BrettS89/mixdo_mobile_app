@@ -28,7 +28,6 @@ class Feed extends React.Component {
   getTodos = async () => {
     await this.setState({ todos: [], refreshing: true });
     await this.props.getTodos();
-    console.log(this.props.todos.payload);
     if(this.props.todos.payload === 'error') {
       await AsyncStorage.clear();
       return this.props.navigation.navigate('Login');
@@ -43,11 +42,9 @@ class Feed extends React.Component {
     });
   };
 
-  navigateToComments = async post => {
-    //get post comments
-    this.props.navigation.navigate('Comments', {
-      comments: ['placholder'],
-    });
+  navigateToComments = async todoId => {
+    await this.props.getComments(todoId);
+    this.props.navigation.navigate('Comments');
   };
 
   navigateToLogin = async () => {
@@ -81,7 +78,6 @@ class Feed extends React.Component {
 
   flagTodo = async () => {
     await this.props.flagTodo({ id: this.state.toFlag });
-    console.log(this.props.flaggedTodo);
     if(this.props.flaggedTodo.payload.status) {
       this.getTodos();
     } 

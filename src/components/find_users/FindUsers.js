@@ -69,7 +69,6 @@ class FindUsers extends React.Component {
     const lastUser = this.state.users.length - 1;
     const lastUserDate = this.state.users[lastUser].date;
     await this.props.findUsersInfinite({ date: lastUserDate });
-    console.log(this.props.infiniteUsers);
     let infinityPayload = [];
     if(this.props.infiniteUsers.payload.length > 0 ) {
       infinityPayload = this.props.infiniteUsers.payload;

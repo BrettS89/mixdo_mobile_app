@@ -47,6 +47,10 @@ export const RootNav3 = createBottomTabNavigator({
     comments: { screen: Comments, navigationOptions: ({ navigation }) => ({
       headerLeft: <Icon name="chevron-left" size={38} color="#ffffff" onPress={() => navigation.goBack(null)} />,
       headerRight: <MenuIcon/>,
+      headerTitle: 'Comments',
+      headerTitleStyle: {
+        color: '#ffffff',
+      },
       headerStyle: {
         elevation: 0,
         backgroundColor: Colors.main,
@@ -60,6 +64,10 @@ export const RootNav3 = createBottomTabNavigator({
     myProfile: { screen: Settings, navigationOptions: ({ navigation }) => ({
       headerLeft: <Icon name="chevron-left" size={38} color="#ffffff" onPress={() => navigation.goBack(null)} />,
       headerRight: <MenuIcon/>,
+      headerTitle: 'Settings',
+      headerTitleStyle: {
+        color: '#ffffff',
+      },
       headerStyle: {
         elevation: 0,
         backgroundColor: Colors.main,

@@ -306,10 +306,6 @@ class Profile extends React.Component {
     await this.setState({ description });
   };
 
-  onKeyPress2 = (key) => {
-    console.log('hi')
-  }
-
   render() {
     return (
       <View style={styles.containerStyle}>
@@ -354,7 +350,7 @@ class Profile extends React.Component {
             <View style={styles.modalSubContainer}>
               <Text style={styles.modalHeader}>Add a Todo</Text>
 
-              <Input2 labelText="Todo" placeholder="Do cool stuff" onChangeText={description => this.onKeyPress(description)} onKeyPress={press => this.onKeyPress2(press)}/>
+              <Input2 labelText="Todo" placeholder="Do cool stuff" onChangeText={description => this.onKeyPress(description)} />
               <Input2 labelText="Tags" placeholder="#fitness, #business, #hustle, etc."  onChangeText={metaData => this.setState({ metaData })} />
 
               <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 20 }}>

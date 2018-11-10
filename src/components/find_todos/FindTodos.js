@@ -36,11 +36,9 @@ class FindTodos extends React.Component{
     });
   };
 
-  navigateToComments = async post => {
-    //get post comments
-    this.props.navigation.navigate('Comments', {
-      comments: ['placholder'],
-    });
+  navigateToComments = async todoId => {
+    await this.props.getComments(todoId);
+    this.props.navigation.navigate('Comments');
   };
 
   onSearchType = async (search) => {
@@ -84,7 +82,6 @@ class FindTodos extends React.Component{
   };
 
   handleEnd = async () => {
-    console.log('Discover end');
     if(this.state.todos.length > 0 && this.state.search.length === 0) {
     const lastTodo = this.state.todos.length - 1;
     const lastTodoDate = this.state.todos[lastTodo].date;

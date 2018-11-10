@@ -7,6 +7,7 @@ import { addUserTodo } from '../store/actions/addUserTodo';
 import { infinityDiscover } from '../store/actions/infinityDiscover';
 import { getFollowers } from '../store/actions/getFollowers';
 import { flagTodo } from '../store/actions/flagTodo';
+import { getComments } from '../store/actions/comments';
 import FindTodos from '../components/find_todos/FindTodos';
 
 function mapStateToProps(state) {
@@ -28,4 +29,5 @@ export default connect(mapStateToProps, { discoverTodos,
                                           infinityDiscover,
                                           getFollowers,
                                           flagTodo,
+                                          getComments,
                                          })(FindTodos);

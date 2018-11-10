@@ -1,17 +1,19 @@
 import React from 'react';
 import { TextInput, View, Text, StyleSheet, Keyboard } from 'react-native';
 
-const Input2 = ({ labelText, value, onChangeText, placeholder, secureTextEntry, onKeyPress }) => {
+const Input2 = ({ labelText, value, onChangeText, placeholder, secureTextEntry, onKeyPress, style }) => {
   const { label, textInput, container, inputView } = styles;
 
   return (
     <View style={container}>
+    {labelText && (
       <Text style={label}>{labelText}</Text>
-      <View style={inputView}>
+    )}
+      <View style={[inputView, style]}>
       <TextInput
         secureTextEntry={secureTextEntry}
         autoCorrect={true}
-        style={textInput}
+        style={[textInput, style]}
         value={value}
         onChangeText={onChangeText}
         // onKeyPress={onKeyPress}
@@ -52,7 +54,8 @@ const styles = StyleSheet.create({
     borderColor: '#eaeaea',
   },
   container: {
-    alignSelf: 'stretch',
+    // alignSelf: 'stretch',
+    width: '100%',
     height: 100,
     marginBottom: 15
   }
