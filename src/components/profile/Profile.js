@@ -12,10 +12,6 @@ import Colors from '../../shared/colors';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Check2 from 'react-native-vector-icons/FontAwesome';
 import CameraIcon from 'react-native-vector-icons/FontAwesome';
-import FlashOff from 'react-native-vector-icons/MaterialIcons';
-import FlashOn from 'react-native-vector-icons/MaterialIcons';
-import Flip from 'react-native-vector-icons/MaterialCommunityIcons';
-
 
 class Profile extends React.Component {
   state = {
@@ -155,60 +151,10 @@ class Profile extends React.Component {
 
   SnapOrSpinner = () => {
     if(this.state.snap) {
-      return (
-        <View style={{ width: 30, height: 30 }}>
-          <CameraIcon 
-            size={20} 
-            color={Colors.main} 
-            name="camera" 
-          />
-        </View>
-      ); 
+      return <View style={{ width: 30, height: 30 }}><CameraIcon size={20} color={Colors.main} name="camera" /></View>;
     }
     return <View style={{ width: 30, height: 30 }}><Spinner color="gray" size="small" /></View>;
   }
-
-  renderFlash = () => {
-    if(this.state.flashMode === Camera.Constants.FlashMode.on) {
-      return ( 
-        <TouchableOpacity onPress={() => this.toggleFlash()}>
-          <FlashOn name="flash-on" size={24} color="#ffffff" />
-        </TouchableOpacity>
-      )
-    }
-    return ( 
-      <TouchableOpacity onPress={() => this.toggleFlash()}>
-        <FlashOn name="flash-off" size={24} color="#ffffff" />
-      </TouchableOpacity>
-    )
-  };
-
-  toggleFlash = () => {
-    if(this.state.flashMode === Camera.Constants.FlashMode.on) {
-      return this.setState({ flashMode: Camera.Constants.FlashMode.off });
-    }
-    if(this.state.flashMode === Camera.Constants.FlashMode.off) {
-      return this.setState({ flashMode: Camera.Constants.FlashMode.on });
-    }
-  };
-
-  toggleType = () => {
-    if(this.state.type === Camera.Constants.Type.back) {
-      return this.setState({ type: Camera.Constants.Type.front });
-    }
-    if(this.state.type === Camera.Constants.Type.front) {
-      return this.setState({ type: Camera.Constants.Type.back });
-    }
-  };
-
-  openCamera = async () => {
-    await this.setState({ snap: false });
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    if(status !== 'granted') {
-      return;
-    }
-    this.setState({ openCamera: true });
-  };
 
   uploadImage = async () => {
     const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
@@ -246,25 +192,6 @@ class Profile extends React.Component {
         photoOptions: false,
       });
     }
-  };
-
-  takePicture = async () => {
-    await this.setState({ cameraLoad2: true, snap: true });
-    await this.setState({ cameraLoad2: false });
-    setTimeout( async () => {
-      await this.setState({ cameraLoad: true });
-      let photo = await this.camera.takePictureAsync();
-      await this.setState({ image: photo, openCamera: false, photoOptions: false, cameraLoad: false });
-    }, 100);
-  };
-
-  renderImageWhilePhotoLoading = () => {
-    if(this.state.cameraLoad2) {
-      return (
-        <View style={{ width: '100%', aspectRatio: 1/1  }}></View>
-      );
-    }
-    return <Camera autoFocus={Camera.Constants.AutoFocus.on} ratio="1:1" type={this.state.type} flashMode={this.state.flashMode} ref={ref => { this.camera = ref; }} style={{ width: '100%', aspectRatio: 1/1  }} />;
   };
 
   finishTodo = async () => {
@@ -543,29 +470,6 @@ class Profile extends React.Component {
                   </TouchableOpacity>
                 </View>
               </View>
-              <Modal
-                transparent
-                visible={this.state.openCamera}
-                onRequestClose={() => this.setState({ openCamera: false, snap: true })}
-              >
-                <View style={styles.cameraModalContainer}>
-                  <TouchableOpacity onPress={() => this.setState({ openCamera: false, snap: true })}>
-                    <Text style={styles.cameraActionText}>Close</Text>
-                  </TouchableOpacity>
-
-                  {this.renderImageWhilePhotoLoading()}
-
-                  <View style={styles.cameraActionsContainer}>
-                    <TouchableOpacity onPress={() => this.toggleType()}>
-                      <Flip name="rotate-3d" size={24} color="#ffffff" />
-                    </TouchableOpacity>
-                      {this.cameraOrSpinner()}
-                    <TouchableOpacity>
-                      {this.renderFlash()}
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              </Modal>
             </Modal> 
           </Modal>
         </Modal>
