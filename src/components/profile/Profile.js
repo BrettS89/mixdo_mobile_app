@@ -1,6 +1,4 @@
 import React from 'react';
-import axios from 'axios';
-import { Buffer } from 'buffer';
 import { View, Text, Modal, TouchableOpacity, FlatList, Image } from 'react-native';
 import { ImagePicker, Camera, Permissions, ImageManipulator } from 'expo';
 import { apiDeleteTodo } from '../../lib/api_calls';
@@ -12,6 +10,7 @@ import Colors from '../../shared/colors';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Check2 from 'react-native-vector-icons/FontAwesome';
 import CameraIcon from 'react-native-vector-icons/FontAwesome';
+import { imageUpload } from '../../services/imageUpload';
 
 class Profile extends React.Component {
   state = {
@@ -165,6 +164,7 @@ class Profile extends React.Component {
       allowsEditing: true,
       aspect: [1, 1],
     });
+
     if (!result.cancelled) {
       await this.setState({
         image: result,
@@ -187,6 +187,7 @@ class Profile extends React.Component {
         allowsEditing: true,
         aspect: [1, 1],
       });
+      console.log(result);
       this.setState({
         image: result,
         photoOptions: false,
@@ -195,33 +196,29 @@ class Profile extends React.Component {
   };
 
   finishTodo = async () => {
+    let imageToSave = null;
     setTimeout(() => {
       this.setState({ darkModal: false });
-    }, 200);
+    }, 1200);
     await this.setState({ loading: true, status: 'finish' });
     if(this.state.image) {
       const manipResult = await ImageManipulator.manipulate(
         this.state.image.uri,
         [{ resize: { width: 1080, height: 1080 }}],
-        { base64: true, compress: 0.6 }
+        { base64: false, compress: 0.6 }
       );
-      const buf = new Buffer(manipResult.base64, 'base64');
+
       const splitURI = this.state.image.uri.split('.');
       const lastItem = splitURI.length - 1;
       const type = splitURI[lastItem];
-      await this.props.getAwsUrl(type);
-      axios.put(this.props.state.awsUrl.url, buf, {
-        headers: {
-          'Content-Type': `image/${type}`,
-          'Content-Encoding': 'base64',
-        }
-      });
+
+      imageToSave = await imageUpload({ file: manipResult, type });
     }
 
     await this.props.finishTodo({ 
       id: this.state.toFinish, 
       image: this.state.image 
-        ? `https://s3.amazonaws.com/${this.props.state.awsUrl.bucket}/${this.props.state.awsUrl.key}` 
+        ? imageToSave
         : null, 
       createdDate: new Date(Date.now()).toString() 
     });
@@ -231,7 +228,7 @@ class Profile extends React.Component {
       toFinish: '', 
       image: null, 
       loading: false, 
-      status: '' 
+      status: '',
     });
   };
 

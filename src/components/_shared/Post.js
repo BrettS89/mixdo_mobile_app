@@ -408,12 +408,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    width: '80%'
+    width: '85%'
   },
   action: {
     justifyContent: 'center',
     alignItems: 'center',
-    width: 70
+    width: 80
 
   },
   action2: {
@@ -442,18 +442,18 @@ const styles = StyleSheet.create({
   },
   likesIcon: {
     top: 1,
-    height: 14,
-    width: 14,
-    borderRadius: 7,
+    height: 16,
+    width: 16,
+    borderRadius: 8,
     backgroundColor: Colors.third,
     alignItems: 'center',
     justifyContent: 'center'
   },
   addsIcon: {
     top: 1,
-    height: 14,
-    width: 14,
-    borderRadius: 7,
+    height: 16,
+    width: 16,
+    borderRadius: 8,
     backgroundColor: Colors.secondary,
     alignItems: 'center',
     justifyContent: 'center'

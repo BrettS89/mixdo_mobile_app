@@ -90,6 +90,7 @@ class SignUpForm extends React.Component {
           <View>
             <Input 
               labelText="email"
+              email={true}
               placeholder="Email"
               onChangeText={email => this.setState({ email })}
               onSubmitHandler={this.onButtonPress}

@@ -34,5 +34,18 @@ export const styles = StyleSheet.create({
     fontWeight: '600', 
     color: Colors.main, 
     fontSize: 18,
-  }
+  },
+  addPhoto: {
+    flexDirection: 'row', 
+    alignItems: 'center',
+  },
+  photoAdded: {
+    flexDirection: 'row', 
+    alignItems: 'center',
+  },
+  photoAddedText: {
+    fontWeight: '600', 
+    color: Colors.main, 
+    marginLeft: 4,
+  },
 });

@@ -1,8 +1,7 @@
 import React from 'react';
-import axios from 'axios';
-import { Buffer } from 'buffer';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { ImagePicker, Permissions, ImageManipulator } from 'expo';
+import { imageUpload } from '../../services/imageUpload';
 import { styles } from './styles';
 import { apiUploadProfilePhoto } from '../../lib/api_calls';
 import pushNotifications from '../../services/pushNotifications';
@@ -25,9 +24,16 @@ class Welcome extends React.Component {
 
   renderProfileImage = () => {
     if(this.state.photo) {
-      return <Image style={styles.profileImage} resizeMode="cover" source={{ uri: this.state.photo }}/>
+      return <Image 
+              style={styles.profileImage} 
+              resizeMode="cover" 
+              source={{ uri: this.state.photo }}
+            />
     }
-    return <Image style={styles.profileImage} source={require('../../../assets/blank-profile.png')} />
+    return <Image 
+            style={styles.profileImage} 
+            source={require('../../../assets/blank-profile.png')}
+          />
   };
 
   uploadImage = async () => {
@@ -44,51 +50,52 @@ class Welcome extends React.Component {
     const manipResult = await ImageManipulator.manipulate(
       result.uri,
       [{ resize: { width: 1080, height: 1080 }}],
-      { base64: true, compress: 0.2 }
+      { base64: false, compress: 0.2 }
     );
 
     if (!result.cancelled) {
-      const buf = new Buffer(manipResult.base64, 'base64');
       const splitURI = result.uri.split('.');
       const lastItem = splitURI.length - 1;
       const type = splitURI[lastItem];
-      await this.props.getAwsUrl(type);
-      await axios.put(this.props.state.awsUrl.url, buf, {
-        headers: {
-          'Content-Type': `image/${type}`,
-          'Content-Encoding': 'base64',
-        }
-      });
-
-      const user = await apiUploadProfilePhoto({ photo: `https://s3.amazonaws.com/${this.props.state.awsUrl.bucket}/${this.props.state.awsUrl.key}` });
+      const imageToSave = await imageUpload({ file: manipResult, type });
+      const user = await apiUploadProfilePhoto({ photo: imageToSave });
       this.setState({ fullName: user.fullName, photo: user.photo });
     }
   };
 
   pressFinish = () => {
-    // await pushNotifications();
+    const { navigation } = this.props;
     pushNotifications().then(() => {
-      console.log('1');
-      this.props.navigation.navigate('FindTodos');
+      navigation.navigate('FindTodos');
     }).catch((e) => {
-      console.log(e);
-      this.props.navigation.navigate('FindTodos');
+      navigation.navigate('FindTodos');
     }); 
   };
 
   displayAddImageText = () => {
     if(this.state.photo) {
       return (
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Check2 size={26} color={Colors.main} name="check" />
-          <Text style={{ fontWeight: '600', color: Colors.main, marginLeft: 4 }}>Photo added</Text>
+        <View style={styles.photoAdded}>
+          <Check2 
+            size={26} 
+            color={Colors.main} 
+            name="check" 
+          />
+          <Text style={styles.photoAddedText}>Photo added</Text>
         </View>
       );
     }
     return (
-      <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => this.uploadImage()}>
-        <Icon size={26} color={Colors.main} name="image" />
-        <Text style={{ fontWeight: '600', color: Colors.main, marginLeft: 3 }}>Add a profile photo</Text>
+      <TouchableOpacity 
+        style={styles.addPhoto} 
+        onPress={() => this.uploadImage()}
+      >
+        <Icon 
+          size={26} 
+          color={Colors.main} 
+          name="image" 
+        />
+        <Text style={styles.photoAddedText}>Add a profile photo</Text>
       </TouchableOpacity>
     )
   };
@@ -100,14 +107,18 @@ class Welcome extends React.Component {
           <Text style={styles.welcomeText}>Welcome to Mixdo!</Text>
           {this.renderProfileImage()}
           {this.displayAddImageText()}
-
-          <TouchableOpacity style={styles.finishButton} onPress={() => this.pressFinish()}>
+          <TouchableOpacity 
+            style={styles.finishButton} 
+            onPress={() => this.pressFinish()}
+          >
             <Text style={styles.buttonText}>Finish</Text>
-            <Chevron size={26} name="chevron-right" color={Colors.main} />
+            <Chevron 
+              size={26} 
+              name="chevron-right" 
+              color={Colors.main} 
+            />
           </TouchableOpacity>
-
         </View>
-
       </View>
     );
   }
