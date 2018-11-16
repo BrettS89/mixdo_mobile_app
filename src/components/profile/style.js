@@ -49,6 +49,35 @@ export const styles = StyleSheet.create({
     justifyContent: 'center', 
     alignItems: 'center'
   },
+  addTodoButtons: {
+    flexDirection: 'row', 
+    alignItems: 'center', 
+    justifyContent: 'center', 
+    marginTop: 20,
+  },
+  addOrSpinner: {
+    width: 100, 
+    marginRight: 15,
+  },
+  cancelAddText: {
+    fontSize: 16, 
+    color: Colors.main, 
+    fontWeight: '500'
+  },
+  addPhotoContainer: {
+    flexDirection: 'row', 
+    alignItems: 'center',
+  },
+  addPhotoText: {
+    fontWeight: '600', 
+    color: Colors.main, 
+    marginLeft: 3,
+  },
+  addedPhotoText: {
+    fontWeight: '600', 
+    color: Colors.main, 
+    marginLeft: 4
+  },
   cameraModalContainer: {
     backgroundColor: 'rgba(0, 0, 0, 0.8)', 
     flex: 1, 

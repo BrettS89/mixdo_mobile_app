@@ -49,13 +49,21 @@ class Profile extends React.Component {
   getTodos = async () => {
     this.setState({ refreshing: true, todos: [] });
     await this.props.getMyTodos();
-    await this.setState({ todos: this.props.state.todos.payload, refreshing: false, list: 'Todo List' });
+    await this.setState({ 
+      todos: this.props.state.todos.payload, 
+      refreshing: false, 
+      list: 'Todo List' 
+    });
   };
 
   getTodoHistory = async () => {
     this.setState({ refreshing: true, todos: [] });
     await this.props.getUserHistory();
-    await this.setState({ todos: this.props.state.todoHistory.payload, refreshing: false, list: 'Todo History' });
+    await this.setState({ 
+      todos: this.props.state.todoHistory.payload, 
+      refreshing: false, 
+      list: 'Todo History' 
+    });
   }
 
   renderItem(todo) {
@@ -63,31 +71,44 @@ class Profile extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(nextProps.state.todo.openModal === true) {
+    const { state: { todo } } = nextProps;
+    if(todo.openModal === true) {
       setTimeout(() => {
-        this.setState({ openModal: nextProps.state.todo.openModal, });
+        this.setState({ openModal: todo.openModal, });
       }, 80)
       this.setState({ darkModal: true });
     }
-    if(nextProps.state.todo.openModal === false) {
+    if(todo.openModal === false) {
       setTimeout(() => {
         this.setState({ darkModal: false });
       }, 80);
-      this.setState({ openModal: nextProps.state.todo.openModal });
+      this.setState({ openModal: todo.openModal });
     }
   }
 
   async addTodo() {
     this.setState({ loading: true, status: 'add' });
     const { description, metaData } = this.state;
-    await this.props.addTodo({ description, metaData, createdDate: new Date(Date.now()).toString() });
+    await this.props.addTodo({ 
+      description, metaData, 
+      createdDate: new Date(Date.now()).toString() 
+    });
     this.props.closeModal();
-    this.setState({ todos: [...this.state.todos, this.props.state.todo.payload], status: '', description: '', metaData: '', loading: false });
-  }
+    this.setState({ 
+      todos: [...this.state.todos, this.props.state.todo.payload], 
+      status: '', 
+      description: '', 
+      metaData: '', 
+      loading: false 
+    });
+  };
 
   openFinishTodo = (todo) => {
     setTimeout(() => {
-      this.setState({ finishTodo: true, toFinish: todo, toDelete: todo });
+      this.setState({ 
+        finishTodo: true, 
+        toFinish: todo, 
+        toDelete: todo });
     }, 80)
     this.setState({ darkModal: true });
   };
@@ -96,29 +117,53 @@ class Profile extends React.Component {
     setTimeout(() => {
       this.setState({ darkModal: false });
     }, 80); 
-    this.setState({ finishTodo: false, toFinish: '', toDelete: '', image: null });
+    this.setState({ 
+      finishTodo: false, 
+      toFinish: '', 
+      toDelete: '', 
+      image: null 
+    });
   };
 
   displayAddImageText = () => {
     if(this.state.image) {
       return (
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Check2 size={26} color={Colors.main} name="check" />
-          <Text style={{ fontWeight: '600', color: Colors.main, marginLeft: 4 }}>Photo added</Text>
+        <View style={styles.addPhotoContainer}>
+          <Check2 
+            size={26} 
+            color={Colors.main} 
+            name="check" 
+          />
+          <Text style={styles.addedPhotoText}>Photo added</Text>
         </View>
       );
     }
     return (
-      <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => this.setState({ photoOptions: true })}>
-        <Icon size={26} color={Colors.main} name="image" />
-        <Text style={{ fontWeight: '600', color: Colors.main, marginLeft: 3 }}>Add a photo</Text>
+      <TouchableOpacity 
+        style={styles.addPhotoContainer} 
+        onPress={() => this.setState({ photoOptions: true })}
+      >
+        <Icon 
+          size={26} 
+          color={Colors.main} 
+          name="image" 
+        />
+        <Text style={styles.addPhotoText}>Add a photo</Text>
       </TouchableOpacity>
     )
   };
 
   SnapOrSpinner = () => {
     if(this.state.snap) {
-      return <View style={{ width: 30, height: 30 }}><CameraIcon size={20} color={Colors.main} name="camera" /></View>;
+      return (
+        <View style={{ width: 30, height: 30 }}>
+          <CameraIcon 
+            size={20} 
+            color={Colors.main} 
+            name="camera" 
+          />
+        </View>
+      ); 
     }
     return <View style={{ width: 30, height: 30 }}><Spinner color="gray" size="small" /></View>;
   }
@@ -182,6 +227,27 @@ class Profile extends React.Component {
     }   
   };
 
+  launchCamera = async () => {
+    const {
+      status: cameraPerm,
+    } = await Permissions.askAsync(Permissions.CAMERA);
+
+    const {
+      status: cameraRollPerm,
+    } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+
+    if (cameraPerm === 'granted' && cameraRollPerm === 'granted') {
+      const result = await ImagePicker.launchCameraAsync({
+        allowsEditing: true,
+        aspect: [1, 1],
+      });
+      this.setState({
+        image: result,
+        photoOptions: false,
+      });
+    }
+  };
+
   takePicture = async () => {
     await this.setState({ cameraLoad2: true, snap: true });
     await this.setState({ cameraLoad2: false });
@@ -225,21 +291,42 @@ class Profile extends React.Component {
       });
     }
 
-    await this.props.finishTodo({ id: this.state.toFinish, image: this.state.image ? `https://s3.amazonaws.com/${this.props.state.awsUrl.bucket}/${this.props.state.awsUrl.key}` : null, createdDate: new Date(Date.now()).toString() });
-    this.setState({ finishTodo: false, finished: [...this.state.finished, this.state.toFinish] , toFinish: '', image: null, loading: false, status: '' });
+    await this.props.finishTodo({ 
+      id: this.state.toFinish, 
+      image: this.state.image 
+        ? `https://s3.amazonaws.com/${this.props.state.awsUrl.bucket}/${this.props.state.awsUrl.key}` 
+        : null, 
+      createdDate: new Date(Date.now()).toString() 
+    });
+    this.setState({ 
+      finishTodo: false, 
+      finished: [...this.state.finished, this.state.toFinish] , 
+      toFinish: '', 
+      image: null, 
+      loading: false, 
+      status: '' 
+    });
   };
 
   finishOrSpinner = () => {
-    if(this.state.loading && this.state.status === 'finish') {
+    const { loading, status } = this.state;
+    if(loading && status === 'finish') {
       return (
         <View style={{ marginBottom: 30 }}>
-          <Spinner size="large" color="gray" />
+          <Spinner 
+            size="large" 
+            color="gray" 
+          />
         </View>
       );
     }
     return (
       <TouchableOpacity onPress={() => this.finishTodo()}>
-        <Check name="check-circle" size={150}  color={Colors.secondary}/>
+        <Check 
+          name="check-circle" 
+          size={150}  
+          color={Colors.secondary}
+        />
       </TouchableOpacity>
     );
   };
@@ -252,13 +339,18 @@ class Profile extends React.Component {
     }
     return (
       <TouchableOpacity onPress={() => this.takePicture()}>
-        <CameraIcon name="camera" size={24} color="#ffffff" />
+        <CameraIcon 
+          name="camera" 
+          size={24} 
+          color="#ffffff"
+        />
       </TouchableOpacity>
     );
   };
 
   addOrSpinner = () => {
-    if(this.state.loading && this.state.status === 'add') {
+    const { loading, status } = this.state;
+    if(loading && status === 'add') {
       return (
         <View style={styles.spinnerButton}>
           <Spinner size="small" />
@@ -266,23 +358,30 @@ class Profile extends React.Component {
       );
     }
     return (
-      <Button onPress={() => this.addTodo()} style={{ backgroundColor: Colors.secondary }}>
+      <Button 
+        onPress={() => this.addTodo()} 
+        style={{ backgroundColor: Colors.secondary }}
+      >
         Add Todo
       </Button>
     );
   }
 
   deleteTodo = async () => {
+    const { todos, toDelete } = this.state;
     try {
-      const deleted = await apiDeleteTodo({ id: this.state.toDelete });
+      const deleted = await apiDeleteTodo({ id: toDelete });
       if (deleted.deleted === true) {
-        const newTodos = this.state.todos.filter(todo => {
-          return todo._id !== this.state.toDelete;
+        const newTodos = todos.filter(todo => {
+          return todo._id !== toDelete;
         });
         setTimeout(() => {
           this.setState({ darkModal: false });
         }, 80);
-        this.setState({ todos: newTodos, finishTodo: false });   
+        this.setState({ 
+          todos: newTodos, 
+          finishTodo: false 
+        });   
       }
     }
     catch(e) {
@@ -295,7 +394,11 @@ class Profile extends React.Component {
       return (
         <View style={styles.zeroContainer}>
           <Text style={styles.zeroText}>Add some todos!</Text>
-          <Text style={styles.zeroText}>When you add todos other users can view, like, or add them</Text>
+          <Text 
+            style={styles.zeroText}
+          >
+            When you add todos other users can view, like, or add them
+          </Text>
         </View>
       );
     }
@@ -309,27 +412,33 @@ class Profile extends React.Component {
   render() {
     return (
       <View style={styles.containerStyle}>
-      
         <View style={styles.optionsContainer}>
-            <View>
-              <Text style={styles.optionText}>{this.state.list === 'Todo List' ? 'Todo List' : 'Todo History'}</Text>
-            </View>
-            <View style={styles.rightContent1}>
-              <TouchableOpacity onPress={() => this.getTodos()}>
-                <Text style={styles.rightText2}>Todo list</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => this.getTodoHistory()}>
-                <Text style={styles.rightText}>Todo history</Text>
-              </TouchableOpacity>
-            </View>  
+          <View>
+            <Text style={styles.optionText}>
+              {this.state.list === 'Todo List' 
+                ? 'Todo List' 
+                : 'Todo History'}
+            </Text>
           </View>
+          <View style={styles.rightContent1}>
+            <TouchableOpacity onPress={() => this.getTodos()}>
+              <Text style={styles.rightText2}>Todo list</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => this.getTodoHistory()}>
+              <Text style={styles.rightText}>Todo history</Text>
+            </TouchableOpacity>
+          </View>  
+        </View>
           {this.zeroTodos()}
-          
         <View style={styles.listStyle}>
           <FlatList
             data={this.state.todos}
             renderItem={(todo) => (
-              <Todo todo={todo} openFinishTodo={this.openFinishTodo} finished={this.state.finished} />
+              <Todo 
+                todo={todo} 
+                openFinishTodo={this.openFinishTodo} 
+                finished={this.state.finished} 
+              />
             )}  
             keyExtractor={todo => todo._id}
             showsVerticalScrollIndicator={false}
@@ -338,8 +447,13 @@ class Profile extends React.Component {
             onRefresh={this.getTodos}
           />
         </View>  
-        <Modal transparent visible={this.state.darkModal} animationType="fade" onRequestClose={() => this.props.closeModal()}>
-            <View style={styles.modalContainerii}></View>
+        <Modal 
+          transparent 
+          visible={this.state.darkModal} 
+          animationType="fade" 
+          onRequestClose={() => this.props.closeModal()}
+        >
+          <View style={styles.modalContainerii}></View>
         <Modal
             transparent
             visible={this.state.openModal === true}
@@ -350,102 +464,110 @@ class Profile extends React.Component {
             <View style={styles.modalSubContainer}>
               <Text style={styles.modalHeader}>Add a Todo</Text>
 
-              <Input2 labelText="Todo" placeholder="Do cool stuff" onChangeText={description => this.onKeyPress(description)} />
-              <Input2 labelText="Tags" placeholder="#fitness, #business, #hustle, etc."  onChangeText={metaData => this.setState({ metaData })} />
+              <Input2 
+                labelText="Todo" 
+                placeholder="Do cool stuff" 
+                onChangeText={description => this.onKeyPress(description)} 
+              />
+              <Input2 
+                labelText="Tags" 
+                placeholder="#fitness, #business, #hustle, etc."  
+                onChangeText={metaData => this.setState({ metaData })} 
+              />
 
-              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 20 }}>
-                <View style={{width: 100, marginRight: 15 }}>
+              <View style={styles.addTodoButtons}>
+                <View style={styles.addOrSpinner}>
                   {this.addOrSpinner()}
                 </View>
                 <TouchableOpacity onPress={() => this.props.closeModal() }>
-                  <Text style={{ fontSize: 16, color: Colors.main, fontWeight: '500' }}>Cancel</Text>
+                  <Text style={styles.cancelAddText}>Cancel</Text>
                 </TouchableOpacity>  
               </View>
             </View>
           </View>  
         </Modal> 
 
-        <Modal
-            transparent
-            visible={this.state.finishTodo === true}
-            onRequestClose={() => this.setState({ finishTodo: false })}
-            animationType="slide"
-          >
-          <View style={styles.modalContainer}>
-            <View style={styles.modalSubContainer2}>
-              <Text style={styles.modalHeader}>Finish Todo</Text>
-              <View>
-                {this.displayAddImageText()}
-              </View>
-
-              <View style={{ alignItems: 'center', justifyContent: 'center', paddingBottom: 20 }}>
-                {this.finishOrSpinner()}
-                <Text style={{ color: 'gray' }}>tap to finish</Text>
-              </View>
-
-              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 20 }}>
-                <View style={{ marginRight: 30 }}>
-                  <TouchableOpacity onPress={() => this.closeFinishTodo()}>
-                    <Text style={{ fontSize: 16, color: 'gray' }}>Cancel</Text>
-                  </TouchableOpacity>
-                </View>
-                <TouchableOpacity onPress={() => this.deleteTodo()}>
-                  <Text style={{ fontSize: 16, color: '#FE4C4B' }}>Delete Todo</Text>
-                </TouchableOpacity>  
-              </View>
-            </View>
-          </View>  
-
-            <Modal
+          <Modal
               transparent
-              visible={this.state.photoOptions}
-              onRequestClose={() => this.setState({ photoOptions: false })}
-              animationType="fade"
+              visible={this.state.finishTodo === true}
+              onRequestClose={() => this.setState({ finishTodo: false })}
+              animationType="slide"
             >
-            <View style={styles.modalContainerii}>
-              <View style={styles.modalSubContainer3}>
-                <View style={{ width: 145, height: 200, justifyContent: 'center' }}>
-                  <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }} onPress={() => this.uploadImage()}>
-                    <View style={{ width: 30 }}>
-                      <Icon size={26} color={Colors.main} name="image" />
-                    </View>
-                    <Text style={{ fontWeight: '600', color: Colors.main, marginLeft: 5 }}>Add from gallery</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginTop: 12, marginLeft: 2 }} onPress={() => this.openCamera()}>
-                    {this.SnapOrSpinner()}
-                    <Text style={{ fontWeight: '600', color: Colors.main, marginLeft: 5, height: 30 }}>Snap a photo</Text>
-                  </TouchableOpacity>
+            <View style={styles.modalContainer}>
+              <View style={styles.modalSubContainer2}>
+                <Text style={styles.modalHeader}>Finish Todo</Text>
+                <View>
+                  {this.displayAddImageText()}
                 </View>
-                <TouchableOpacity style={{ position: 'absolute', marginTop: 170 }} onPress={() => this.setState({ photoOptions: false, finishTodo: true })}>
-                  <Text style={{ color: 'lightgray' }}>Back</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-            <Modal
-              transparent
-              visible={this.state.openCamera}
-              onRequestClose={() => this.setState({ openCamera: false, snap: true })}
-            >
-              <View style={styles.cameraModalContainer}>
-                <TouchableOpacity onPress={() => this.setState({ openCamera: false, snap: true })}>
-                  <Text style={styles.cameraActionText}>Close</Text>
-                </TouchableOpacity>
 
-                {this.renderImageWhilePhotoLoading()}
+                <View style={{ alignItems: 'center', justifyContent: 'center', paddingBottom: 20 }}>
+                  {this.finishOrSpinner()}
+                  <Text style={{ color: 'gray' }}>tap to finish</Text>
+                </View>
 
-                <View style={styles.cameraActionsContainer}>
-                  <TouchableOpacity onPress={() => this.toggleType()}>
-                    <Flip name="rotate-3d" size={24} color="#ffffff" />
-                  </TouchableOpacity>
-                    {this.cameraOrSpinner()}
-                  <TouchableOpacity>
-                    {this.renderFlash()}
-                  </TouchableOpacity>
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 20 }}>
+                  <View style={{ marginRight: 30 }}>
+                    <TouchableOpacity onPress={() => this.closeFinishTodo()}>
+                      <Text style={{ fontSize: 16, color: 'gray' }}>Cancel</Text>
+                    </TouchableOpacity>
+                  </View>
+                  <TouchableOpacity onPress={() => this.deleteTodo()}>
+                    <Text style={{ fontSize: 16, color: '#FE4C4B' }}>Delete Todo</Text>
+                  </TouchableOpacity>  
                 </View>
               </View>
-            </Modal>
-          </Modal> 
-        </Modal>
+            </View>  
+
+              <Modal
+                transparent
+                visible={this.state.photoOptions}
+                onRequestClose={() => this.setState({ photoOptions: false })}
+                animationType="fade"
+              >
+              <View style={styles.modalContainerii}>
+                <View style={styles.modalSubContainer3}>
+                  <View style={{ width: 145, height: 200, justifyContent: 'center' }}>
+                    <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }} onPress={() => this.uploadImage()}>
+                      <View style={{ width: 30 }}>
+                        <Icon size={26} color={Colors.main} name="image" />
+                      </View>
+                      <Text style={{ fontWeight: '600', color: Colors.main, marginLeft: 5 }}>Add from gallery</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginTop: 12, marginLeft: 2 }} onPress={() => this.launchCamera()}>
+                      {this.SnapOrSpinner()}
+                      <Text style={{ fontWeight: '600', color: Colors.main, marginLeft: 5, height: 30 }}>Snap a photo</Text>
+                    </TouchableOpacity>
+                  </View>
+                  <TouchableOpacity style={{ position: 'absolute', marginTop: 170 }} onPress={() => this.setState({ photoOptions: false, finishTodo: true })}>
+                    <Text style={{ color: 'lightgray' }}>Back</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+              <Modal
+                transparent
+                visible={this.state.openCamera}
+                onRequestClose={() => this.setState({ openCamera: false, snap: true })}
+              >
+                <View style={styles.cameraModalContainer}>
+                  <TouchableOpacity onPress={() => this.setState({ openCamera: false, snap: true })}>
+                    <Text style={styles.cameraActionText}>Close</Text>
+                  </TouchableOpacity>
+
+                  {this.renderImageWhilePhotoLoading()}
+
+                  <View style={styles.cameraActionsContainer}>
+                    <TouchableOpacity onPress={() => this.toggleType()}>
+                      <Flip name="rotate-3d" size={24} color="#ffffff" />
+                    </TouchableOpacity>
+                      {this.cameraOrSpinner()}
+                    <TouchableOpacity>
+                      {this.renderFlash()}
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </Modal>
+            </Modal> 
+          </Modal>
         </Modal>
       </View> 
     );

@@ -1,12 +1,12 @@
 {
   "expo": {
     "name": "Mixdo",
-    "description": "This project is really great.",
+    "description": "The social todo list",
     "slug": "mixdoprod",
     "privacy": "public",
     "sdkVersion": "30.0.0",
     "platforms": ["ios", "android"],
-    "version": "1.0.1",
+    "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/mixdoicon.png",
     "facebookScheme": "fb736979746693999",
@@ -27,7 +27,7 @@
     },
     "android": {
       "package": "com.mixdo.mixdo",
-      "versionCode": 2,
+      "versionCode": 3,
       "googleServicesFile": "./google-services.json"
     },
     "notification": {
