@@ -1,5 +1,10 @@
 import React from 'react';
-import { createStackNavigator, createMaterialTopTabNavigator, createBottomTabNavigator, createSwitchNavigator, SwitchNavigator } from 'react-navigation';
+import { 
+  createStackNavigator, 
+  createMaterialTopTabNavigator, 
+  createBottomTabNavigator, 
+  createSwitchNavigator,
+} from 'react-navigation';
 import Icon from 'react-native-vector-icons/Feather';
 import Icon2 from 'react-native-vector-icons/Octicons';
 import Profile from '../containers/Profile';
@@ -165,7 +170,6 @@ main: {
             backgroundColor: Colors.yellow,
           },
           style: {
-            fontSize: 18,
             elevation: 0,
             backgroundColor: Colors.main,
             height: 75,

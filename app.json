@@ -6,7 +6,7 @@
     "privacy": "public",
     "sdkVersion": "30.0.0",
     "platforms": ["ios", "android"],
-    "version": "1.1.0",
+    "version": "1.1.2",
     "orientation": "portrait",
     "icon": "./assets/mixdoicon.png",
     "facebookScheme": "fb736979746693999",
@@ -23,11 +23,16 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.mixdo.mixdo"
+      "bundleIdentifier": "com.mixdo.mixdo",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Mixdo uses the camera to capture and save photos along with your todos.",
+        "NSPhotoLibraryAddUsageDescription": "Mixdo uses the camera to capture and save photos along with your todos.",
+        "NSPhotoLibraryUsageDescription": "Mixdo uses your photo library to allow you save photos along with your todos."
+      }
     },
     "android": {
       "package": "com.mixdo.mixdo",
-      "versionCode": 3,
+      "versionCode": 4,
       "googleServicesFile": "./google-services.json"
     },
     "notification": {
