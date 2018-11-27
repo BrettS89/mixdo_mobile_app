@@ -6,6 +6,7 @@ export const OPEN_MODAL = 'OPEN_MODAL';
 export const CLOSE_MODAL = 'CLOSE_MODAL';
 export const ADD_TODO = 'ADD_TODO';
 export const GET_MY_TODOS = 'GET_MY_TODOS';
+export const GET_PUBLIC_TODOS = 'GET_PUBLIC_TODOS';
 export const GET_TODOS = 'GET_TODOS';
 export const INFINITY_TODOS = 'INFINITY_TODOS';
 export const DISCOVER_TODOS = 'DISCOVER_TODOS';

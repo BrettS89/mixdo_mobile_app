@@ -26,6 +26,7 @@ import getAwsUrl from './getAwsUrl';
 import deleteUser from './deleteUser';
 import flagTodo from './flagTodo';
 import comments from './comments';
+import getPublicTodos from './getPublicTodos';
 
 const rootReducer = combineReducers({
   login,
@@ -55,6 +56,7 @@ const rootReducer = combineReducers({
   deleteUser,
   flagTodo,
   comments,
+  publicTodos: getPublicTodos,
 });
 
 export default rootReducer;

@@ -59,7 +59,7 @@ class SignUpForm extends React.Component {
   render() {
     return (
       <View style={styles.signupFormContainer}>
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('Login')}>
+        <TouchableOpacity onPress={() => this.props.navigation.navigate('PublicTodos')}>
           <Text style={{ color: Colors.main }}>Back</Text>
         </TouchableOpacity>
 

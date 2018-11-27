@@ -18,9 +18,11 @@ class Auth extends React.Component {
         await apiTest();
         return this.props.navigation.navigate('Activity');
       }
-      this.props.navigation.navigate('Login');
+      await apiTest();
+      this.props.navigation.navigate('PublicTodos');
     }
     catch(e) {
+      console.log('wut?');
       this.props.navigation.navigate('Login');
     }     
   };

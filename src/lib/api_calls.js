@@ -21,9 +21,9 @@ async function getToken() {
 //Test connection to server
 export async function apiTest() {
   try {
-    const config = await getToken();
-    const { data } = await axios.get(`${URI}/connection`, config);
-    await AsyncStorage.setItem('_id', data._id);
+    // const config = await getToken();
+    const { data } = await axios.get(`${URI}/connection`);
+    // await AsyncStorage.setItem('_id', data._id);
   }
   catch(e) {
     console.log(e);
@@ -35,7 +35,7 @@ export async function apiTest() {
 export async function userSignup(body) {
   try {
     const { data } = await axios.post(`${URI}/auth/signup`, body);
-    await AsyncStorage.setItem('_id', data._id);
+    // await AsyncStorage.setItem('_id', data._id);
     return data;
   }
   catch(e) {
@@ -60,7 +60,7 @@ export async function apiSavePushToken(body) {
 export async function userLogin(body) {
   try {
     const { data } = await axios.post(`${URI}/auth/login`, body);
-    await AsyncStorage.setItem('_id', data._id);
+    // await AsyncStorage.setItem('_id', data._id);
     return data;
   }
   catch(e) {
@@ -115,6 +115,17 @@ export async function getOnePersonTodos() {
   }
   catch(e) {
     return 'error'
+  }
+}
+
+//Get public todos
+export async function apiGetPublicTodos() {
+  try {
+    const { data } = await axios.get(`${URI}/todos/public`);
+    return data;
+  }
+  catch(e) {
+    throw 'error';
   }
 }
 

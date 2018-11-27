@@ -26,6 +26,7 @@ import Auth from '../containers/Auth';
 import Legal from '../containers/Legal';
 import PrivacyPolicy from '../containers/PrivacyPolicy';
 import Comments from '../containers/Comments';
+import PublicTodos from '../containers/PublicTodos';
 import Colors from '../shared/colors';
 
 
@@ -36,6 +37,24 @@ const authNav = createBottomTabNavigator({
   Legal: { screen: Legal },
   TC: { screen: TC },
   PrivacyPolicy: { screen: PrivacyPolicy },
+  PublicTodos : {
+    screen: createStackNavigator({
+      Notification: { screen: PublicTodos, navigationOptions: () => ({
+        headerLeft: <Logo />,
+        headerStyle: {
+          elevation: 0,
+          backgroundColor: Colors.main,
+          }
+        })
+      }, 
+    }),
+    navigationOptions: {
+      title: 'PublicTodos',
+      tabBarIcon: ({ tintColor }) => (
+        <Icon name="bell" size={21} color={tintColor}/>
+      )
+    } 
+  }
 }, {
   initialRouteName: 'Login',
   tabBarOptions: {
@@ -233,12 +252,13 @@ export const rootNavigator = (signedIn) => {
     initialRoute = 'SignedIn'
   }
   if(!signedIn) {
-    initialRoute = 'Login'
+    initialRoute = 'PublicTodos'
   }
   return createSwitchNavigator({
     SignedIn: { screen: RootNav3 },
     NotSignedIn: { screen: Auth },
-    Login: { screen: authNav }
+    Login: { screen: authNav },
+    PublicTOdos: { screen: PublicTodos },
   }, {
     initialRouteName: faker ? initialRoute : 'NotSignedIn'
   });
